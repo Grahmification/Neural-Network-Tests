@@ -40,12 +40,13 @@
             this.textBox_Workingfolder = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button_Cancel = new System.Windows.Forms.Button();
             this.progressBar_processing = new System.Windows.Forms.ProgressBar();
             this.button_process = new System.Windows.Forms.Button();
             this.textBox_processImage = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.plotView1 = new OxyPlot.WindowsForms.PlotView();
-            this.userControlTest1 = new Neural_Network_Test_2.UserControlTest();
+            this.label_status = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -154,7 +155,8 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel2.Controls.Add(this.userControlTest1);
+            this.panel2.Controls.Add(this.label_status);
+            this.panel2.Controls.Add(this.button_Cancel);
             this.panel2.Controls.Add(this.progressBar_processing);
             this.panel2.Controls.Add(this.button_process);
             this.panel2.Controls.Add(this.textBox_processImage);
@@ -163,6 +165,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(412, 95);
             this.panel2.TabIndex = 5;
+            // 
+            // button_Cancel
+            // 
+            this.button_Cancel.Location = new System.Drawing.Point(181, 60);
+            this.button_Cancel.Name = "button_Cancel";
+            this.button_Cancel.Size = new System.Drawing.Size(75, 23);
+            this.button_Cancel.TabIndex = 8;
+            this.button_Cancel.Text = "Cancel";
+            this.button_Cancel.UseVisualStyleBackColor = true;
+            this.button_Cancel.Click += new System.EventHandler(this.button_Cancel_Click);
             // 
             // progressBar_processing
             // 
@@ -211,13 +223,14 @@
             this.plotView1.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
             this.plotView1.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS;
             // 
-            // userControlTest1
+            // label_status
             // 
-            this.userControlTest1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.userControlTest1.Location = new System.Drawing.Point(11, 52);
-            this.userControlTest1.Name = "userControlTest1";
-            this.userControlTest1.Size = new System.Drawing.Size(254, 40);
-            this.userControlTest1.TabIndex = 8;
+            this.label_status.AutoSize = true;
+            this.label_status.Location = new System.Drawing.Point(34, 69);
+            this.label_status.Name = "label_status";
+            this.label_status.Size = new System.Drawing.Size(35, 13);
+            this.label_status.TabIndex = 9;
+            this.label_status.Text = "label5";
             // 
             // Mainform
             // 
@@ -260,7 +273,8 @@
         private System.Windows.Forms.TextBox textBox_processImage;
         private System.Windows.Forms.Label label7;
         private OxyPlot.WindowsForms.PlotView plotView1;
-        private UserControlTest userControlTest1;
+        private System.Windows.Forms.Button button_Cancel;
+        private System.Windows.Forms.Label label_status;
     }
 }
 

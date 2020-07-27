@@ -11,18 +11,19 @@ using OxyPlot;
 using OxyPlot.Series;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
-
+using Neural_Network_Test_2.Neural;
+using System.Threading;
 
 namespace Neural_Network_Test_2
 {
     public partial class Mainform : Form
     {
-        
-        neuralNetwork net;
-        ActivationNetwork net2;
+        NetworkController NetController = new NetworkController();
 
         PlotModel myModel;
         LineSeries[] lineSeries = new LineSeries[3];
+
+        CancellationTokenSource tokenSource = new CancellationTokenSource();
         
         public Mainform()
         {
@@ -45,111 +46,111 @@ namespace Neural_Network_Test_2
 
         private async void button_Train_Click(object sender, EventArgs e)
         {
-            lineSeries[0].Points.Clear();
-            lineSeries[1].Points.Clear();
-            lineSeries[2].Points.Clear();
-                         
-            Button btn = (Button)sender;
-            btn.Enabled = false;
+            Button btn = new Button();
 
-            float learningRate = float.Parse(textBox_LearningRate.Text);
-            string folderPath = textBox_Workingfolder.Text;
-            string inputPicName = textBox_inputPicture.Text;
-            string solnPicName = textBox_EditedPicture.Text;
-
-            var progress = new Progress<neuralNetwork.TrainingUpdate>(s => updateTrainingGUI(s));
-            //net = await Task.Factory.StartNew<neuralNetwork>(() => WorkerClass.Train2(folderPath, inputPicName, solnPicName, learningRate, progress));
-
-            net2 = await Task.Factory.StartNew<ActivationNetwork>(() => WorkerClass.Train3(folderPath, inputPicName, solnPicName, learningRate, progress));
-            btn.Enabled = true;
-
-
-            /*
-            var progress = new Progress<double>(s => progressBar_Training.Value = (int)(s * 100));
-            var errorReport = new Progress<float[]>(s => updateErrors(s));
-            
-            Color[,] inputPic = WorkerClass.loadImage(folderPath, inputPicName);
-            Color[,] solnPic = WorkerClass.loadImage(folderPath, solnPicName);
-
-            int width = inputPic.GetLength(0);
-            int height = inputPic.GetLength(1);
-
-            net = await Task.Factory.StartNew<neuralNetwork>(() => WorkerClass.TrainNetworkFromImage(inputPic, solnPic, learningRate, progress));
-            */
-
-        }
-
-        private void updateTrainingGUI(neuralNetwork.TrainingUpdate s)
-        {
             try
             {
-                float[] normalized = new float[s.currentError.Length];
+                tokenSource = new CancellationTokenSource();
+                var cancelToken = tokenSource.Token;
+            
+                lineSeries[0].Points.Clear();
+                lineSeries[1].Points.Clear();
+                lineSeries[2].Points.Clear();
 
-                for (int i = 0; i < s.currentError.Length; i++)
-                {
-                    normalized[i] = Math.Abs(s.currentError[i]);
+                btn = (Button)sender;
+                btn.Enabled = false;
 
-                    if (normalized[i] > 1) { normalized[i] = 1; }
-                }
+                float learningRate = float.Parse(textBox_LearningRate.Text);
+                string folderPath = textBox_Workingfolder.Text;
+                string inputPicName = textBox_inputPicture.Text;
+                string solnPicName = textBox_EditedPicture.Text;
 
-                double progress = (((s.currentEpoch - 1) * s.maxTrainingSteps) + s.currentTrainingStep) / (s.maxEpochs * s.maxTrainingSteps * 1.0);
-
-                progressBar_Training.Value = (int)(progress*100.0);
-
-                for (int i = 0; i < normalized.Length; i++)
-                {
-                    lineSeries[i].Points.Add(new DataPoint(progress * 100.0, normalized[i])); 
-                }
-
-                //lineSeries[0].Points.Add(new DataPoint(progress * 100.0, normalized[0]));
-                //lineSeries[1].Points.Add(new DataPoint(progress * 100.0, normalized[1]));
-                //lineSeries[2].Points.Add(new DataPoint(progress * 100.0, normalized[2]));
-
-                myModel.InvalidatePlot(true);
+                var progress = new Progress<NetworkProgressArgs>(s => updateTrainingGUI(s));
+             
+                await NetController.Train(folderPath, inputPicName, solnPicName, learningRate, progress, cancelToken);           
             }
-            catch (Exception e)
+            catch (OperationCanceledException) {}
+            catch (Exception ex)
             {
-                MessageBox.Show(e.ToString());
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                btn.Enabled = true;
             }
         }
-
         private async void button_process_Click(object sender, EventArgs e)
         {
+            Button btn = new Button();
+
             try
             {
-                Button btn = (Button)sender;
+                tokenSource = new CancellationTokenSource();
+                var cancelToken = tokenSource.Token;
+
+                btn = (Button)sender;
                 btn.Enabled = false;
 
                 string folderPath = textBox_Workingfolder.Text;
                 string inputPicName = textBox_processImage.Text;
 
 
-                var progress = new Progress<double>(s => progressBar_processing.Value = (int)(s * 100));
+                var progress = new Progress<NetworkProgressArgs>(s => progressBar_processing.Value = s.PercentProgress);
 
-                //var inputPic = WorkerClass.loadImage(folderPath, inputPicName);
-                //int width = inputPic.GetLength(0);
-                //int height = inputPic.GetLength(1);
-                //var outputImage = await Task.Factory.StartNew<ImageClass>(() => WorkerClass.ApplyNetworkToImage(inputPic, net, progress));
-
-                //var outputImage = await Task.Factory.StartNew<ImageClass>(() => WorkerClass.Process2(folderPath, inputPicName, net, progress));
-
-                var outputImage = await Task.Factory.StartNew<ImageClass>(() => WorkerClass.Process3(folderPath, inputPicName, net2, progress));
-                outputImage.saveImage(folderPath, "edited_image.jpg");
+                var outputImage = await NetController.Process(folderPath, inputPicName, progress, cancelToken);
+                outputImage.SaveImage(folderPath, "edited_image.jpg");
                 btn.Enabled = true;
 
-                
-
-
-                
             }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
-           
-
+            finally
+            {
+                btn.Enabled = true;
+            }
+        }
+        private void button_Cancel_Click(object sender, EventArgs e)
+        {
+            tokenSource.Cancel();
         }
 
-       
+        private void updateTrainingGUI(NetworkProgressArgs s)
+        {
+            try
+            {
+                progressBar_Training.Value = s.PercentProgress;
+                label_status.Text = s.StatusString;
+
+
+                if(s.Status == NetworkStatus.Training)
+                {
+                    var error = NetController.CurrentTrainingError;
+                    List<float> normalizedError = new List<float>();
+
+                    for (int i = 0; i < error.Length; i++)
+                    {
+                        var tmp = Math.Abs(error[i]);
+                        if (tmp > 1) { tmp = 1; }
+
+                        normalizedError.Add(tmp);
+                    }
+
+                    for (int i = 0; i < normalizedError.Count; i++)
+                    {
+                        lineSeries[i].Points.Add(new DataPoint(s.Progress * 100.0, normalizedError[i]));
+
+                        myModel.InvalidatePlot(true);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
+    
     }
 }
