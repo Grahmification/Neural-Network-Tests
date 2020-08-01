@@ -18,6 +18,8 @@ namespace Neural_Network_Test_2
         protected async override Task TrainDoWork(IProgress<NetworkProgressArgs> progress, int reportInterval, CancellationToken cancel = default)
         {
             var network = new NeuralNetwork(new int[] { InputData.DataSize, 10, 10, 10, SolnData.DataSize }, new TanhFunction());
+            //var network = new NeuralNetwork(new int[] { InputData.DataSize, 10, SolnData.DataSize }, new BipolarSigmoidFunction(1));
+
             _trainer = new NetworkTrainer(network);
             _trainer.TrainingReportInterval = reportInterval;
             

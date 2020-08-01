@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Neural_Network_Test_2.Neural.ActivationFunctions
+namespace Neural_Network_Test_2.Neural 
 {
-    class BipolarSigmoidFunction : IActivationFunction
+    public class BipolarSigmoidFunction : IActivationFunction
     {
         public float Alpha { get; set; } = 2;
 
