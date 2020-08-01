@@ -55,16 +55,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Image\Image.cs" />
-    <Compile Include="INetworkController.cs" />
-    <Compile Include="Mainform.cs">
+    <Compile Include="Controllers\INetworkController.cs" />
+    <Compile Include="Forms\Mainform.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Mainform.Designer.cs">
+    <Compile Include="Forms\Mainform.Designer.cs">
       <DependentUpon>Mainform.cs</DependentUpon>
     </Compile>
     <Compile Include="Image\NetworkImage.cs" />
-    <Compile Include="MainFormController.cs" />
-    <Compile Include="NetworkControllerIntegrated.cs" />
+    <Compile Include="Controllers\MainFormController.cs" />
+    <Compile Include="Controllers\NetworkControllerIntegrated.cs" />
     <Compile Include="Neural\ActivationFunctions\BipolarSigmoidFunction.cs" />
     <Compile Include="Neural\ActivationFunctions\IActivationFunction.cs" />
     <Compile Include="Neural\ActivationFunctions\ReluFunction.cs" />
@@ -75,11 +75,11 @@
     <Compile Include="Neural\NetworkTrainer.cs" />
     <Compile Include="Neural\NeuralNetwork.cs" />
     <Compile Include="Image\Pixel.cs" />
-    <Compile Include="PlotController.cs" />
+    <Compile Include="Controllers\PlotController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NetworkController.cs" />
-    <EmbeddedResource Include="Mainform.resx">
+    <Compile Include="Controllers\NetworkController.cs" />
+    <EmbeddedResource Include="Forms\Mainform.resx">
       <DependentUpon>Mainform.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

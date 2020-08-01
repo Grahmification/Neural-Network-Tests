@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace Neural_Network_Test_2
 {
@@ -59,4 +59,8 @@ namespace Neural_Network_Test_2
         }
 
     }
+
+
+
+
 }

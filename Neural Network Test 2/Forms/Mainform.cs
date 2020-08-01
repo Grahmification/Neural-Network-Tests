@@ -7,9 +7,7 @@ using OxyPlot.WindowsForms;
 namespace Neural_Network_Test_2
 {
     public partial class Mainform : Form
-    {
-        MainFormController Controller = null;
-
+    {       
         public PlotView ErrorPlot { get { return plotView1; }}
 
         public string WorkingFolder { get { return textBox_Workingfolder.Text; } }
@@ -28,7 +26,8 @@ namespace Neural_Network_Test_2
         public event EventHandler TrainButtonClicked;
         public event EventHandler ProcessButtonClicked;
 
-    
+        private MainFormController Controller = null;
+
         public Mainform()
         {
             InitializeComponent();

@@ -29,18 +29,25 @@ namespace Neural_Network_Test_2
         }
         private void onFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (NetController.Processing || NetController.Training)
+            try
             {
-                var result = MessageBox.Show("A calculation is currently in progress, are you sure you want to exit?", "Operation in Progress", MessageBoxButtons.OKCancel);
-
-                if (result == DialogResult.Cancel)
+                if (NetController.Processing || NetController.Training)
                 {
-                    e.Cancel = true; //don't close
-                    return; //skip cancelling processes
-                }
-            }
+                    var result = MessageBox.Show("A calculation is currently in progress, are you sure you want to exit?", "Operation in Progress", MessageBoxButtons.OKCancel);
 
-            tokenSource.Cancel(); //stop all processes running
+                    if (result == DialogResult.Cancel)
+                    {
+                        e.Cancel = true; //don't close
+                        return; //skip cancelling processes
+                    }
+                }
+
+                tokenSource.Cancel(); //stop all processes running
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }      
         }
         
         private async void onTrainRequest(object sender, EventArgs e)

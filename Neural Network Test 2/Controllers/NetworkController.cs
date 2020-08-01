@@ -17,8 +17,9 @@ namespace Neural_Network_Test_2
 
         public bool Training { get; private set; } = false;
         public bool Processing { get; private set; } = false;
+        public int ReportInterval { get; set; } = 10000;
 
-        
+
         public virtual async Task Train(string folderPath, string inputPicName, string solnPicName, float learningRate, IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
         {
             try
@@ -27,7 +28,7 @@ namespace Neural_Network_Test_2
                 Training = true;
                 
                 await PrepareInputData(folderPath, inputPicName, solnPicName, progress, cancel);              
-                await TrainDoWork(progress, 1000, cancel); //call derived class to do training
+                await TrainDoWork(progress, ReportInterval, cancel); //call derived class to do training
 
                 Training = false;
                 progress.Report(new NetworkProgressArgs(1, NetworkStatus.Complete));
@@ -46,7 +47,7 @@ namespace Neural_Network_Test_2
                 Processing = true;
                 
                 await PrepareInputData(folderPath, inputPicName, "", progress, cancel);
-                var outputData = await ProcessDoWork(progress, 1000, cancel); //call derived class to do calculation
+                var outputData = await ProcessDoWork(progress, ReportInterval, cancel); //call derived class to do calculation
 
                 Processing = false;
                 progress.Report(new NetworkProgressArgs(1, NetworkStatus.Complete));
