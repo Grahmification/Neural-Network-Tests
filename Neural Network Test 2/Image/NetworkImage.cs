@@ -56,7 +56,7 @@ namespace Neural_Network_Test_2
                     counter++;                   
                 }
                 
-                progress.Report(new NetworkProgressArgs(counter / (double)ValueCount, NetworkStatus.LoadingData)); //only report progress every row
+                progress.Report(new NetworkProgressArgs(counter / (double)ValueCount, NetworkStatus.PreparingData)); //only report progress every row
             }
 
             return new NetworkIOData(pixelData);
@@ -95,7 +95,7 @@ namespace Neural_Network_Test_2
                     counter++;                 
                 }
                 
-                progress.Report(new NetworkProgressArgs(counter / (double)ValueCount, NetworkStatus.LoadingData)); //only report progress every row
+                progress.Report(new NetworkProgressArgs(counter / (double)ValueCount, NetworkStatus.PreparingData)); //only report progress every row
             }
 
             return new NetworkIOData(pixelData);

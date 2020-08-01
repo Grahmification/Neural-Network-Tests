@@ -25,6 +25,9 @@ namespace Neural_Network_Test_2.Neural
                     case NetworkStatus.LoadingData:
                         return "Loading Data";
 
+                    case NetworkStatus.PreparingData:
+                        return "Preparing Data";
+
                     case NetworkStatus.Processing:
                         return "Processing";
 
@@ -49,6 +52,6 @@ namespace Neural_Network_Test_2.Neural
         }
     }
 
-    public enum NetworkStatus { LoadingData, Training, Processing, Idle, Cancelled, Complete}
+    public enum NetworkStatus { LoadingData, PreparingData, Training, Processing, Idle, Cancelled, Complete}
 
 }
