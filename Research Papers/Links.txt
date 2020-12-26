@@ -1,0 +1,13 @@
+Image Analogies:
+- A far more complicated neural network processing algorithm for image processing.
+- Website: https://mrl.cs.nyu.edu/projects/image-analogies/
+- Source Code: https://mrl.cs.nyu.edu/projects/image-analogies/lf/lf.tar.gz
+- Papers: https://mrl.cs.nyu.edu/publications/image-analogies/
+- Direct Paper Link: https://mrl.cs.nyu.edu/publications/image-analogies/analogies-72dpi.pdf
+
+
+Deep Photo Style Transfer:
+- Website: https://www.cs.cornell.edu/~fujun/files/style-cvpr17/style-cvpr17.html
+- Source Code: https://github.com/luanfujun/deep-photo-styletransfer
+- Direct Paper Link: https://arxiv.org/pdf/1703.07511.pdf
+
