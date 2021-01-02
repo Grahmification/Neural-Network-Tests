@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
+using System.IO;
 
 namespace Neural_Network_Test_2
 {
@@ -20,15 +21,22 @@ namespace Neural_Network_Test_2
         public Image(string folderPath, string fileName)
         {
             string fullPath = folderPath + "\\" + fileName;
+
+            if (!File.Exists(fullPath))
+                throw new Exception(string.Format("Image does not exist at {0}", fullPath));
+
             BaseImage = new Bitmap(fullPath);
         }
 
         public void SaveImage(string folderPath, string fileName)
         {
+            //if the directory doesn't exist, create it first
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+            
             string fullPath = folderPath + "\\" + fileName;
             BaseImage.Save(fullPath);
         }
-
         public void SetPixels(Color[,] input)
         {
             int width = input.GetLength(0);

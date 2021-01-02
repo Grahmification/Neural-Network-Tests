@@ -46,7 +46,7 @@ namespace Neural_Network_Test_2
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                View.DisplayError(ex);
             }      
         }
         
@@ -74,7 +74,7 @@ namespace Neural_Network_Test_2
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                View.DisplayError(ex);
             }
             finally
             {
@@ -104,7 +104,7 @@ namespace Neural_Network_Test_2
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                View.DisplayError(ex);
             }
             finally
             {
@@ -139,9 +139,9 @@ namespace Neural_Network_Test_2
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.ToString());
+                View.DisplayError(ex);
             }
         }
         private void onTrainingStatusChange(bool started)

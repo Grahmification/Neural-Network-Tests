@@ -60,6 +60,11 @@ namespace Neural_Network_Test_2
             Controller = new MainFormController(this);
         }
 
+        public void DisplayError(Exception ex)
+        {
+            MessageBox.Show(string.Format("An error occurred: {0}", ex.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
         private void button_Train_Click(object sender, EventArgs e)
         {
             TrainButtonClicked?.Invoke(sender, e);

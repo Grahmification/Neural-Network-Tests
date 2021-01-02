@@ -30,14 +30,15 @@ namespace Neural_Network_Test_2
                 await PrepareInputData(folderPath, inputPicName, solnPicName, progress, cancel);              
                 await TrainDoWork(progress, ReportInterval, cancel); //call derived class to do training
 
-                Training = false;
                 progress.Report(new NetworkProgressArgs(1, NetworkStatus.Complete));
             }
-            catch (OperationCanceledException)
+            finally
             {
+                //notify the GUI if we are finished due to cancellation
+                if (cancel.IsCancellationRequested)
+                    progress.Report(new NetworkProgressArgs(0, NetworkStatus.Cancelled));
+
                 Training = false;
-                progress.Report(new NetworkProgressArgs(0, NetworkStatus.Cancelled));
-                throw new OperationCanceledException();
             }
         }
         public virtual async Task<NetworkImage> Process(string folderPath, string inputPicName, IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
@@ -49,15 +50,16 @@ namespace Neural_Network_Test_2
                 await PrepareInputData(folderPath, inputPicName, "", progress, cancel);
                 var outputData = await ProcessDoWork(progress, ReportInterval, cancel); //call derived class to do calculation
 
-                Processing = false;
                 progress.Report(new NetworkProgressArgs(1, NetworkStatus.Complete));
                 return new NetworkImage(outputData, InputPic.Width, InputPic.Height);
             }
-            catch (OperationCanceledException)
+            finally
             {
+                //notify the GUI if we are finished due to cancellation
+                if (cancel.IsCancellationRequested)
+                    progress.Report(new NetworkProgressArgs(0, NetworkStatus.Cancelled));
+
                 Processing = false;
-                progress.Report(new NetworkProgressArgs(0, NetworkStatus.Cancelled));
-                throw new OperationCanceledException();
             }
         }
 
