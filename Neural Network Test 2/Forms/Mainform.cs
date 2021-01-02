@@ -36,10 +36,10 @@ namespace Neural_Network_Test_2
     {       
         public PlotView ErrorPlot { get { return plotView1; }}
 
-        public string WorkingFolder { get { return textBox_Workingfolder.Text; } }
-        public string TrainingInputPic { get { return textBox_inputPicture.Text; } }
-        public string TrainingSolnPic { get { return textBox_EditedPicture.Text; } }
-        public string ProcessPic { get { return textBox_processImage.Text; } }
+        public string WorkingFolder { get { return textBox_Workingfolder.Text; } set { textBox_Workingfolder.Text = value; } }
+        public string TrainingInputPic { get { return textBox_inputPicture.Text; } set { textBox_inputPicture.Text = value; } }
+        public string TrainingSolnPic { get { return textBox_EditedPicture.Text; } set { textBox_EditedPicture.Text = value; } }
+        public string ProcessPic { get { return textBox_processImage.Text; } set { textBox_processImage.Text = value; } }
         public float LearingRate { get { return float.Parse(textBox_LearningRate.Text); } }
 
         public string StatusText { get { return label_status.Text; } set { label_status.Text = value; } }

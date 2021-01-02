@@ -22,6 +22,8 @@ namespace Neural_Network_Test_2
             View.FormClosing += onFormClosing;
 
             View.AllowProcessing = false; //can't do this until we have trained the network
+
+            loadSettings();
         }
         private void onFormClosing(object sender, FormClosingEventArgs e)
         {
@@ -41,6 +43,9 @@ namespace Neural_Network_Test_2
                 //stop all processes running
                 NetController.CancelProcessing();
                 NetController.CancelTraining();
+
+                //save user settings
+                saveSettings();
             }
             catch (Exception ex)
             {
@@ -171,5 +176,28 @@ namespace Neural_Network_Test_2
             View.AllowTraining = !started;
         }
 
+        /// <summary>
+        /// Loads saved user settings into the GUI.
+        /// </summary>
+        private void loadSettings()
+        {
+            View.WorkingFolder = Properties.Settings.Default.WorkingFolder;
+            View.TrainingInputPic = Properties.Settings.Default.TrainingInputPic;
+            View.TrainingSolnPic = Properties.Settings.Default.TrainingSolutionPic;
+            View.ProcessPic = Properties.Settings.Default.ProcessingInputPic;
+        }
+
+        /// <summary>
+        /// Saves user settings from the GUI
+        /// </summary>
+        private void saveSettings()
+        {
+            Properties.Settings.Default.WorkingFolder = View.WorkingFolder;
+            Properties.Settings.Default.TrainingInputPic = View.TrainingInputPic;
+            Properties.Settings.Default.TrainingSolutionPic = View.TrainingSolnPic;
+            Properties.Settings.Default.ProcessingInputPic = View.ProcessPic;
+
+            Properties.Settings.Default.Save();
+        }
     }
 }

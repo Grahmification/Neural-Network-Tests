@@ -1,7 +1,18 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Neural_Network_Test_2.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WorkingFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\graham\Desktop\Testdata</Value>
+    </Setting>
+    <Setting Name="TrainingInputPic" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pic1.jpg</Value>
+    </Setting>
+    <Setting Name="TrainingSolutionPic" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pic1_edit1.jpg</Value>
+    </Setting>
+    <Setting Name="ProcessingInputPic" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pic2.jpg</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
