@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace Neural_Network_Test_2
 {
@@ -9,6 +10,29 @@ namespace Neural_Network_Test_2
         public Bitmap BaseImage { get; private set; }
         public int Width { get { return BaseImage.Width; } }
         public int Height { get { return BaseImage.Height; } }
+        
+        public string FolderPath { get; private set; } = "";
+        public string FileName { get; private set; } = "";
+        public string FullPath { get { return string.Format("{0}\\{1}", FolderPath, FileName); } }
+        public string FileExtension { 
+            get
+            {
+                if (FileName == "")
+                    return "";
+                else
+                    return FileName.Split('.').Last();
+            } 
+        }
+        public string FileNameNoExtension
+        {
+            get
+            {
+                if (FileName == "")
+                    return "";
+                else
+                    return FileName.Split('.').First();
+            }
+        }
 
         public Image()
         {
@@ -20,12 +44,13 @@ namespace Neural_Network_Test_2
         }
         public Image(string folderPath, string fileName)
         {
-            string fullPath = folderPath + "\\" + fileName;
+            FolderPath = folderPath;
+            FileName = fileName;
+            
+            if (!File.Exists(FullPath))
+                throw new Exception(string.Format("Image does not exist at {0}", FullPath));
 
-            if (!File.Exists(fullPath))
-                throw new Exception(string.Format("Image does not exist at {0}", fullPath));
-
-            BaseImage = new Bitmap(fullPath);
+            BaseImage = new Bitmap(FullPath);
         }
 
         public void SaveImage(string folderPath, string fileName)
@@ -65,7 +90,7 @@ namespace Neural_Network_Test_2
             }
             return output;
         }
-
+        
     }
 
 

@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Neural_Network_Test_2
 {
-    public class NetworkImage : Image
+    public class NetworkImage : Image, INetworkData
     {
         public NetworkImage(List<float[]> pixelData, int width, int height) : base()
         {
@@ -30,17 +30,16 @@ namespace Neural_Network_Test_2
 
         }
 
-
-        public async Task<NetworkIOData> GetNetworkDataAsync(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
+        public async Task<NetworkIOData> GetSolutionDataAsync(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
         {
-            return await Task.Run(() => GetNetworkData(progress, cancel), cancel); 
+            return await Task.Run(() => GetSolutionData(progress, cancel), cancel); 
         }   
-        public async Task<NetworkIOData> GetNetworkData_NeighborsAsync(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
+        public async Task<NetworkIOData> GetInputDataAsync(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
         {
-             return await Task.Run(() => GetNetworkData_Neighbors(progress, cancel), cancel);     
+             return await Task.Run(() => GetInputData(progress, cancel), cancel);     
         }
 
-        public NetworkIOData GetNetworkData(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
+        public NetworkIOData GetSolutionData(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
         {
             var pixelData = new List<float[]>();
             int counter = 0;
@@ -61,7 +60,7 @@ namespace Neural_Network_Test_2
 
             return new NetworkIOData(pixelData);
         }
-        public NetworkIOData GetNetworkData_Neighbors(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
+        public NetworkIOData GetInputData(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
         {
             var inputFloat = GetPixels(); //gets all pre-converted pixels
             var pixelData = new List<float[]>();
@@ -100,8 +99,6 @@ namespace Neural_Network_Test_2
 
             return new NetworkIOData(pixelData);
         }
-
-
 
         public static float[] ConvertPixelToData(Color input)
         {

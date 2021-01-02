@@ -69,6 +69,7 @@
     <Compile Include="Neural\ActivationFunctions\IActivationFunction.cs" />
     <Compile Include="Neural\ActivationFunctions\ReluFunction.cs" />
     <Compile Include="Neural\ActivationFunctions\TanhFunction.cs" />
+    <Compile Include="Neural\INetworkData.cs" />
     <Compile Include="Neural\Layer.cs" />
     <Compile Include="Neural\NetworkIOData.cs" />
     <Compile Include="Neural\NetworkProgressArgs.cs" />

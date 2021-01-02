@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Neural_Network_Test_2.Neural;
-using System.Threading;
-
 
 namespace Neural_Network_Test_2
 {
@@ -13,8 +11,6 @@ namespace Neural_Network_Test_2
 
         PlotController PlotController; 
         INetworkController NetController = new NetworkControllerIntegrated();
-
-        CancellationTokenSource tokenSource = new CancellationTokenSource();
 
         public MainFormController(Mainform view)
         {
@@ -42,7 +38,9 @@ namespace Neural_Network_Test_2
                     }
                 }
 
-                tokenSource.Cancel(); //stop all processes running
+                //stop all processes running
+                NetController.CancelProcessing();
+                NetController.CancelTraining();
             }
             catch (Exception ex)
             {
@@ -56,19 +54,20 @@ namespace Neural_Network_Test_2
             {
                 if(NetController?.Training == false) //start training
                 {                  
-                    tokenSource = new CancellationTokenSource();
-
                     PlotController.ResetData();
                     onTrainingStatusChange(true);
 
                     var progress = new Progress<NetworkProgressArgs>(s => onProgressUpdate(s));
 
-                    await NetController.Train(View.WorkingFolder, View.TrainingInputPic, View.TrainingSolnPic, View.LearingRate, progress, tokenSource.Token);
+                    var inputData = new NetworkImage(View.WorkingFolder, View.TrainingInputPic);
+                    var solutionData = new NetworkImage(View.WorkingFolder, View.TrainingSolnPic);
+
+                    await NetController.Train(inputData, solutionData, View.LearingRate, progress);
                     View.AllowProcessing = true; //now we can allow processing
                 }
                 else //stop training
                 {
-                    tokenSource.Cancel();                   
+                    NetController.CancelTraining();                 
                 }                       
             }
             catch (OperationCanceledException) { }
@@ -87,18 +86,20 @@ namespace Neural_Network_Test_2
             {
                 if (NetController?.Processing == false) //start processing
                 {
-                    tokenSource = new CancellationTokenSource();
-
                     onProcessingStatusChange(true);
                     var progress = new Progress<NetworkProgressArgs>(s => onProgressUpdate(s));
 
-                    var outputImage = await NetController.Process(View.WorkingFolder, View.ProcessPic, progress, tokenSource.Token);
-                    outputImage.SaveImage(View.WorkingFolder, "edited_image.jpg");
+                    var inputPic = new NetworkImage(View.WorkingFolder, View.ProcessPic);
+                    
+                    var outputData = await NetController.Process(inputPic, progress);
+                    var outputImage = new NetworkImage(outputData.DataList, inputPic.Width, inputPic.Height);
+
+                    outputImage.SaveImage(View.WorkingFolder, string.Format("{0} edited.{1}", inputPic.FileNameNoExtension, inputPic.FileExtension));
 
                 }
                 else //stop processing
                 {
-                    tokenSource.Cancel();
+                    NetController.CancelProcessing();
                 }          
             }
             catch (OperationCanceledException) { }
@@ -169,5 +170,6 @@ namespace Neural_Network_Test_2
 
             View.AllowTraining = !started;
         }
+
     }
 }

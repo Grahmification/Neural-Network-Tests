@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Threading;
 using Neural_Network_Test_2.Neural;
 
 namespace Neural_Network_Test_2
@@ -9,15 +8,16 @@ namespace Neural_Network_Test_2
     {
         float[] CurrentTrainingError { get; }
 
-        NetworkImage InputPic { get; }
         NetworkIOData InputData { get; }
         NetworkIOData SolnData { get; }
         bool Training { get; }
         bool Processing { get; }
         float LearningRate { get; }
 
-        Task Train(string folderPath, string inputPicName, string solnPicName, float learningRate, IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default);
+        Task Train(INetworkData inputData, INetworkData solutionData, float learningRate, IProgress<NetworkProgressArgs> progress);
+        Task<NetworkIOData> Process(INetworkData inputData, IProgress<NetworkProgressArgs> progress);
 
-        Task<NetworkImage> Process(string folderPath, string inputPicName, IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default);
+        void CancelTraining();
+        void CancelProcessing();
     }
 }
