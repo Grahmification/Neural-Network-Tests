@@ -30,7 +30,6 @@ Some sample image test datasets have been added to the repository. Give these a 
 #### Examples
 
 
-
 A pair of training images is shown below. The un-edited image is on the left. The image on the right has a color grading profile applied to it. The network is trained with these two images.
 
 <p align="center">
@@ -45,7 +44,19 @@ The image below on the left is processed with the network trained using the two 
   <img src="./Example Images/Output.jpg" alt="Output Image" width="250">
 </p>
 
+Here is an example of the neural network learning a threshold effect. The training images are below. The right one has been thresholded to make a black and white image.
 
+<p align="center">
+  <img src="./Example Images/TrainingA2.jpg" alt="Training Image A" width="250">
+  <img src="./Example Images/TrainingB2.jpg" alt="Training Image B" width="250">
+</p>
+
+The input and output images are below. The network does an extremely effective job of learning the threshold effect.
+
+<p align="center">
+  <img src="./Example Images/Input2.jpg" alt="Input Image" width="250">
+  <img src="./Example Images/Output2.jpg" alt="Output Image" width="250">
+</p>
 
 
 #### How it works
