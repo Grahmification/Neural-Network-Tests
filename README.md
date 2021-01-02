@@ -9,6 +9,9 @@ Neural network tests demonstrates practical examples of neural network implement
 
 #### Getting started
 
+<img src="./Example Images/Image Processing GUI Screenshot.png" align="right"
+     alt="GUI Screenshot" width="300" height="500">
+
 1. Compile the code in Visual Studio.
 1. Run Neural Network Tests 2.exe 
 1. Select a working folder that contains your training and input images.
@@ -23,6 +26,27 @@ Neural network tests demonstrates practical examples of neural network implement
    * Re-processing the unedited image from the training dataset provides a good indication of how successful training was. The processed image should be very similar to the edited image from the training set.
    
 Some sample image test datasets have been added to the repository. Give these a try. Currently only the network learning rate can be changed from the GUI; the primary structure of the network is hard-coded. Eventually support will be added to modify advanced network parameters from the GUI.
+
+#### Examples
+
+
+
+A pair of training images is shown below. The un-edited image is on the left. The image on the right has a color grading profile applied to it. The network is trained with these two images.
+
+<p align="center">
+  <img src="./Example Images/TrainingA.jpg" alt="Training Image A" width="250">
+  <img src="./Example Images/TrainingB.jpg" alt="Training Image B" width="250">
+</p>
+
+The image below on the left is processed with the network trained using the two images above. The output image is shown on the right.
+
+<p align="center">
+  <img src="./Example Images/Input.jpg" alt="Input Image" width="250">
+  <img src="./Example Images/Output.jpg" alt="Output Image" width="250">
+</p>
+
+
+
 
 #### How it works
 
