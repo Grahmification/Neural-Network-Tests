@@ -55,7 +55,7 @@ The input and output images are below. The network does an extremely effective j
 
 <p align="center">
   <img src="./Example Images/Input2.jpg" alt="Input Image" width="250">
-  <img src="./Example Images/Output2.jpg" alt="Output Image" width="250">
+  <img src="./Example Images/Output 2.jpg" alt="Output Image" width="250">
 </p>
 
 
