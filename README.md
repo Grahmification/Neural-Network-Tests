@@ -1,7 +1,5 @@
 Neural network tests demonstrates practical examples of neural network implementations utilizing C# and winforms.
 
-![License](https://img.shields.io/badge/license-MIT-red.svg)
-
 #### Projects
 
 1. Neural Network Tests 1 - A test implementation of basic network (no real functionality)
@@ -62,4 +60,8 @@ The input and output images are below. The network does an extremely effective j
 #### How it works
 
 - Todo
+
+#### License
+
+![GitHub](https://img.shields.io/github/license/Grahmification/Neural-Network-Tests) Neural Network Tests is available for free under the MIT license.
   
