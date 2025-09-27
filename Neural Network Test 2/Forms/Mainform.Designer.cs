@@ -28,251 +28,254 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox_LearningRate = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.button_Train = new System.Windows.Forms.Button();
-            this.textBox_EditedPicture = new System.Windows.Forms.TextBox();
-            this.textBox_inputPicture = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.progressBar_Training = new System.Windows.Forms.ProgressBar();
-            this.textBox_Workingfolder = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.button_process = new System.Windows.Forms.Button();
-            this.textBox_processImage = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label_status = new System.Windows.Forms.Label();
-            this.plotView1 = new OxyPlot.WindowsForms.PlotView();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.SuspendLayout();
+            panel1 = new Panel();
+            textBox_LearningRate = new TextBox();
+            label3 = new Label();
+            button_Train = new Button();
+            textBox_EditedPicture = new TextBox();
+            textBox_inputPicture = new TextBox();
+            label2 = new Label();
+            label1 = new Label();
+            progressBar_Training = new ProgressBar();
+            textBox_Workingfolder = new TextBox();
+            label4 = new Label();
+            panel2 = new Panel();
+            button_process = new Button();
+            textBox_processImage = new TextBox();
+            label7 = new Label();
+            label_status = new Label();
+            plotView1 = new OxyPlot.WindowsForms.PlotView();
+            panel3 = new Panel();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
+            panel3.SuspendLayout();
+            SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel1.Controls.Add(this.textBox_LearningRate);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.button_Train);
-            this.panel1.Controls.Add(this.textBox_EditedPicture);
-            this.panel1.Controls.Add(this.textBox_inputPicture);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(12, 38);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(412, 118);
-            this.panel1.TabIndex = 0;
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel1.BackColor = SystemColors.ControlDark;
+            panel1.Controls.Add(textBox_LearningRate);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(button_Train);
+            panel1.Controls.Add(textBox_EditedPicture);
+            panel1.Controls.Add(textBox_inputPicture);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(14, 44);
+            panel1.Margin = new Padding(4, 3, 4, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(481, 136);
+            panel1.TabIndex = 0;
             // 
             // textBox_LearningRate
             // 
-            this.textBox_LearningRate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_LearningRate.Location = new System.Drawing.Point(82, 57);
-            this.textBox_LearningRate.Name = "textBox_LearningRate";
-            this.textBox_LearningRate.Size = new System.Drawing.Size(93, 20);
-            this.textBox_LearningRate.TabIndex = 6;
-            this.textBox_LearningRate.Text = "0.05";
+            textBox_LearningRate.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            textBox_LearningRate.Location = new Point(96, 66);
+            textBox_LearningRate.Margin = new Padding(4, 3, 4, 3);
+            textBox_LearningRate.Name = "textBox_LearningRate";
+            textBox_LearningRate.Size = new Size(108, 23);
+            textBox_LearningRate.TabIndex = 6;
+            textBox_LearningRate.Text = "0.05";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 60);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Learning Rate";
+            label3.AutoSize = true;
+            label3.Location = new Point(4, 69);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(79, 15);
+            label3.TabIndex = 5;
+            label3.Text = "Learning Rate";
             // 
             // button_Train
             // 
-            this.button_Train.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Train.Location = new System.Drawing.Point(262, 57);
-            this.button_Train.Name = "button_Train";
-            this.button_Train.Size = new System.Drawing.Size(135, 52);
-            this.button_Train.TabIndex = 4;
-            this.button_Train.Text = "Train NN";
-            this.button_Train.UseVisualStyleBackColor = true;
-            this.button_Train.Click += new System.EventHandler(this.button_Train_Click);
+            button_Train.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            button_Train.Location = new Point(306, 66);
+            button_Train.Margin = new Padding(4, 3, 4, 3);
+            button_Train.Name = "button_Train";
+            button_Train.Size = new Size(158, 60);
+            button_Train.TabIndex = 4;
+            button_Train.Text = "Train NN";
+            button_Train.UseVisualStyleBackColor = true;
+            button_Train.Click += button_Train_Click;
             // 
             // textBox_EditedPicture
             // 
-            this.textBox_EditedPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_EditedPicture.Location = new System.Drawing.Point(82, 31);
-            this.textBox_EditedPicture.Name = "textBox_EditedPicture";
-            this.textBox_EditedPicture.Size = new System.Drawing.Size(315, 20);
-            this.textBox_EditedPicture.TabIndex = 3;
-            this.textBox_EditedPicture.Text = "pic2.jpg";
+            textBox_EditedPicture.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            textBox_EditedPicture.Location = new Point(96, 36);
+            textBox_EditedPicture.Margin = new Padding(4, 3, 4, 3);
+            textBox_EditedPicture.Name = "textBox_EditedPicture";
+            textBox_EditedPicture.Size = new Size(367, 23);
+            textBox_EditedPicture.TabIndex = 3;
+            textBox_EditedPicture.Text = "pic2.jpg";
             // 
             // textBox_inputPicture
             // 
-            this.textBox_inputPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_inputPicture.Location = new System.Drawing.Point(82, 5);
-            this.textBox_inputPicture.Name = "textBox_inputPicture";
-            this.textBox_inputPicture.Size = new System.Drawing.Size(315, 20);
-            this.textBox_inputPicture.TabIndex = 2;
-            this.textBox_inputPicture.Text = "pic1.jpg";
+            textBox_inputPicture.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            textBox_inputPicture.Location = new Point(96, 6);
+            textBox_inputPicture.Margin = new Padding(4, 3, 4, 3);
+            textBox_inputPicture.Name = "textBox_inputPicture";
+            textBox_inputPicture.Size = new Size(367, 23);
+            textBox_inputPicture.TabIndex = 2;
+            textBox_inputPicture.Text = "pic1.jpg";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 34);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Edited Picture";
+            label2.AutoSize = true;
+            label2.Location = new Point(4, 39);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(80, 15);
+            label2.TabIndex = 1;
+            label2.Text = "Edited Picture";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Input Picture";
+            label1.AutoSize = true;
+            label1.Location = new Point(4, 9);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(75, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Input Picture";
             // 
             // progressBar_Training
             // 
-            this.progressBar_Training.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar_Training.Location = new System.Drawing.Point(111, 6);
-            this.progressBar_Training.Name = "progressBar_Training";
-            this.progressBar_Training.Size = new System.Drawing.Size(296, 23);
-            this.progressBar_Training.TabIndex = 7;
+            progressBar_Training.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            progressBar_Training.Location = new Point(130, 7);
+            progressBar_Training.Margin = new Padding(4, 3, 4, 3);
+            progressBar_Training.Name = "progressBar_Training";
+            progressBar_Training.Size = new Size(345, 27);
+            progressBar_Training.TabIndex = 7;
             // 
             // textBox_Workingfolder
             // 
-            this.textBox_Workingfolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Workingfolder.Location = new System.Drawing.Point(97, 12);
-            this.textBox_Workingfolder.Name = "textBox_Workingfolder";
-            this.textBox_Workingfolder.Size = new System.Drawing.Size(327, 20);
-            this.textBox_Workingfolder.TabIndex = 3;
-            this.textBox_Workingfolder.Text = "C:\\Users\\graham\\Desktop\\Testdata";
+            textBox_Workingfolder.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            textBox_Workingfolder.Location = new Point(113, 14);
+            textBox_Workingfolder.Margin = new Padding(4, 3, 4, 3);
+            textBox_Workingfolder.Name = "textBox_Workingfolder";
+            textBox_Workingfolder.Size = new Size(381, 23);
+            textBox_Workingfolder.TabIndex = 3;
+            textBox_Workingfolder.Text = "C:\\Users\\graham\\Desktop\\Testdata";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 15);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(79, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Working Folder";
+            label4.AutoSize = true;
+            label4.Location = new Point(14, 17);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(88, 15);
+            label4.TabIndex = 4;
+            label4.Text = "Working Folder";
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel2.Controls.Add(this.button_process);
-            this.panel2.Controls.Add(this.textBox_processImage);
-            this.panel2.Controls.Add(this.label7);
-            this.panel2.Location = new System.Drawing.Point(12, 162);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(412, 95);
-            this.panel2.TabIndex = 5;
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel2.BackColor = SystemColors.ControlDark;
+            panel2.Controls.Add(button_process);
+            panel2.Controls.Add(textBox_processImage);
+            panel2.Controls.Add(label7);
+            panel2.Location = new Point(14, 187);
+            panel2.Margin = new Padding(4, 3, 4, 3);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(481, 110);
+            panel2.TabIndex = 5;
             // 
             // button_process
             // 
-            this.button_process.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_process.Location = new System.Drawing.Point(262, 31);
-            this.button_process.Name = "button_process";
-            this.button_process.Size = new System.Drawing.Size(135, 52);
-            this.button_process.TabIndex = 4;
-            this.button_process.Text = "Process Picture";
-            this.button_process.UseVisualStyleBackColor = true;
-            this.button_process.Click += new System.EventHandler(this.button_process_Click);
+            button_process.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            button_process.Location = new Point(306, 36);
+            button_process.Margin = new Padding(4, 3, 4, 3);
+            button_process.Name = "button_process";
+            button_process.Size = new Size(158, 60);
+            button_process.TabIndex = 4;
+            button_process.Text = "Process Picture";
+            button_process.UseVisualStyleBackColor = true;
+            button_process.Click += button_process_Click;
             // 
             // textBox_processImage
             // 
-            this.textBox_processImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_processImage.Location = new System.Drawing.Point(82, 5);
-            this.textBox_processImage.Name = "textBox_processImage";
-            this.textBox_processImage.Size = new System.Drawing.Size(315, 20);
-            this.textBox_processImage.TabIndex = 2;
-            this.textBox_processImage.Text = "pic1.jpg";
+            textBox_processImage.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            textBox_processImage.Location = new Point(96, 6);
+            textBox_processImage.Margin = new Padding(4, 3, 4, 3);
+            textBox_processImage.Name = "textBox_processImage";
+            textBox_processImage.Size = new Size(367, 23);
+            textBox_processImage.TabIndex = 2;
+            textBox_processImage.Text = "pic1.jpg";
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 8);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(67, 13);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Input Picture";
+            label7.AutoSize = true;
+            label7.Location = new Point(4, 9);
+            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(75, 15);
+            label7.TabIndex = 0;
+            label7.Text = "Input Picture";
             // 
             // label_status
             // 
-            this.label_status.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.label_status.BackColor = System.Drawing.SystemColors.Info;
-            this.label_status.Location = new System.Drawing.Point(6, 6);
-            this.label_status.Name = "label_status";
-            this.label_status.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label_status.Size = new System.Drawing.Size(99, 23);
-            this.label_status.TabIndex = 9;
-            this.label_status.Text = "Idle";
-            this.label_status.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label_status.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            label_status.BackColor = SystemColors.Info;
+            label_status.Location = new Point(7, 7);
+            label_status.Margin = new Padding(4, 0, 4, 0);
+            label_status.Name = "label_status";
+            label_status.RightToLeft = RightToLeft.Yes;
+            label_status.Size = new Size(115, 27);
+            label_status.TabIndex = 9;
+            label_status.Text = "Idle";
+            label_status.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // plotView1
             // 
-            this.plotView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.plotView1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.plotView1.Location = new System.Drawing.Point(12, 303);
-            this.plotView1.Name = "plotView1";
-            this.plotView1.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView1.Size = new System.Drawing.Size(412, 323);
-            this.plotView1.TabIndex = 6;
-            this.plotView1.Text = "plotView1";
-            this.plotView1.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
-            this.plotView1.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
-            this.plotView1.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS;
+            plotView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            plotView1.BackColor = SystemColors.ControlDark;
+            plotView1.Location = new Point(14, 350);
+            plotView1.Margin = new Padding(4, 3, 4, 3);
+            plotView1.Name = "plotView1";
+            plotView1.PanCursor = Cursors.Hand;
+            plotView1.Size = new Size(481, 373);
+            plotView1.TabIndex = 6;
+            plotView1.Text = "plotView1";
+            plotView1.ZoomHorizontalCursor = Cursors.SizeWE;
+            plotView1.ZoomRectangleCursor = Cursors.SizeNWSE;
+            plotView1.ZoomVerticalCursor = Cursors.SizeNS;
             // 
             // panel3
             // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel3.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel3.Controls.Add(this.label_status);
-            this.panel3.Controls.Add(this.progressBar_Training);
-            this.panel3.Location = new System.Drawing.Point(12, 263);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(412, 34);
-            this.panel3.TabIndex = 7;
+            panel3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel3.BackColor = SystemColors.ControlDark;
+            panel3.Controls.Add(label_status);
+            panel3.Controls.Add(progressBar_Training);
+            panel3.Location = new Point(14, 303);
+            panel3.Margin = new Padding(4, 3, 4, 3);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(481, 39);
+            panel3.TabIndex = 7;
             // 
             // Mainform
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(440, 638);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.plotView1);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox_Workingfolder);
-            this.Controls.Add(this.panel1);
-            this.MinimumSize = new System.Drawing.Size(456, 677);
-            this.Name = "Mainform";
-            this.Text = "Neural Network Image Processor";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(513, 736);
+            Controls.Add(panel3);
+            Controls.Add(plotView1);
+            Controls.Add(panel2);
+            Controls.Add(label4);
+            Controls.Add(textBox_Workingfolder);
+            Controls.Add(panel1);
+            Margin = new Padding(4, 3, 4, 3);
+            MinimumSize = new Size(529, 775);
+            Name = "Mainform";
+            Text = "Neural Network Image Processor";
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            panel3.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
