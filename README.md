@@ -1,13 +1,13 @@
 Neural network tests demonstrates practical examples of neural network implementations utilizing C# and winforms.
 
-#### Projects
+### Projects
 
-1. Neural Network Tests 1 - A test implementation of basic network (no real functionality)
-1. Neural Network Tests 2 - Utilizes a neural network to duplicate effects added to images.
+1. [Neural Network Tests 1](Source/Neural%20Network%20Test%201) - A test implementation of basic network (no real functionality)
+1. [Neural Network Tests 2](Source/Neural%20Network%20Test%202) - Utilizes a neural network to duplicate effects added to images.
 
-#### Getting started
+### Getting started
 
-<img src="./Example Images/Image Processing GUI Screenshot.png" align="right"
+<img src="./Example Images/Image Processing GUI Animation.gif" align="right"
      alt="GUI Screenshot" width="300" height="500">
 
 1. Compile the code in Visual Studio.
@@ -25,7 +25,7 @@ Neural network tests demonstrates practical examples of neural network implement
    
 Some sample image test datasets have been added to the repository. Give these a try. Currently only the network learning rate can be changed from the GUI; the primary structure of the network is hard-coded. Eventually support will be added to modify advanced network parameters from the GUI.
 
-#### Examples
+### Examples
 
 
 A pair of training images is shown below. The un-edited image is on the left. The image on the right has a color grading profile applied to it. The network is trained with these two images.
@@ -57,13 +57,36 @@ The input and output images are below. The network does an extremely effective j
 </p>
 
 
-#### How it works
+### How it works
 
 - Todo
 
-#### License
+### License
 
 ![GitHub](https://img.shields.io/github/license/Grahmification/Neural-Network-Tests) Neural Network Tests is available for free under the MIT license.
 
 Packages:
 - This project licenses [Oxyplot](https://oxyplot.github.io/) under the MIT License. Copyright (c) 2014 OxyPlot contributors.
+
+
+### Literature
+
+Below are some interesting papers on neural networks and related topics.
+
+**Image Analogies:** A far more complicated neural network processing algorithm for image processing.
+- [Website](https://mrl.cs.nyu.edu/projects/image-analogies/)
+- [Source Code](https://mrl.cs.nyu.edu/projects/image-analogies/lf/lf.tar.gz)
+- [Papers](https://mrl.cs.nyu.edu/publications/image-analogies/)
+- [Direct Paper Link](https://mrl.cs.nyu.edu/publications/image-analogies/analogies-72dpi.pdf)
+
+**Deep Photo Style Transfer:**
+- [Website](https://www.cs.cornell.edu/~fujun/files/style-cvpr17/style-cvpr17.html)
+- [Source Code](https://github.com/luanfujun/deep-photo-styletransfer)
+- [Direct Paper Link](https://arxiv.org/pdf/1703.07511.pdf)
+
+
+### Changelog
+
+V1.1.0 - 2025-09-27
+- Update projects to dotnet 8.0
+- Minor cleanup
