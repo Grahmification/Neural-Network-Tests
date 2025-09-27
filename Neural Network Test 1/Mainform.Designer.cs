@@ -1,6 +1,6 @@
 ﻿namespace Neural_Network_Test_1
 {
-    partial class Form1
+    partial class Mainform
     {
         /// <summary>
         /// Required designer variable.
@@ -190,15 +190,15 @@
             label1.TabIndex = 3;
             label1.Text = "Learning Steps";
             // 
-            // Form1
+            // Mainform
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(771, 470);
             Controls.Add(panel1);
             Margin = new Padding(4, 3, 4, 3);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "Mainform";
+            Text = "Neural Network Training Errors";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
