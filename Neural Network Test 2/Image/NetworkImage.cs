@@ -25,20 +25,22 @@ namespace Neural_Network_Test_2
 
         }
 
-        public async Task<NetworkIOData> GetSolutionDataAsync(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
+        public async Task<NetworkIOData> GetSolutionDataAsync(IProgress<NetworkProgressArgs>? progress, CancellationToken cancel = default)
         {
             return await Task.Run(() => GetSolutionData(progress, cancel), cancel); 
         }   
-        public async Task<NetworkIOData> GetInputDataAsync(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
+        public async Task<NetworkIOData> GetInputDataAsync(IProgress<NetworkProgressArgs>? progress, CancellationToken cancel = default)
         {
              return await Task.Run(() => GetInputData(progress, cancel), cancel);     
         }
 
-        public NetworkIOData GetSolutionData(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
+        public NetworkIOData GetSolutionData(IProgress<NetworkProgressArgs>? progress, CancellationToken cancel = default)
         {
             var pixelData = new List<float[]>();
             int counter = 0;
             int ValueCount = Width * Height;
+
+            if (BaseImage == null) { return new NetworkIOData(pixelData); }
 
             for (int i = 0; i < Width; i++)
             {    
@@ -50,12 +52,12 @@ namespace Neural_Network_Test_2
                     counter++;                   
                 }
                 
-                progress.Report(new NetworkProgressArgs(counter / (double)ValueCount, NetworkStatus.PreparingData)); //only report progress every row
+                progress?.Report(new NetworkProgressArgs(counter / (double)ValueCount, NetworkStatus.PreparingData)); //only report progress every row
             }
 
             return new NetworkIOData(pixelData);
         }
-        public NetworkIOData GetInputData(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
+        public NetworkIOData GetInputData(IProgress<NetworkProgressArgs>? progress, CancellationToken cancel = default)
         {
             var inputFloat = GetPixels(); //gets all pre-converted pixels
             var pixelData = new List<float[]>();
@@ -89,7 +91,7 @@ namespace Neural_Network_Test_2
                     counter++;                 
                 }
                 
-                progress.Report(new NetworkProgressArgs(counter / (double)ValueCount, NetworkStatus.PreparingData)); //only report progress every row
+                progress?.Report(new NetworkProgressArgs(counter / (double)ValueCount, NetworkStatus.PreparingData)); //only report progress every row
             }
 
             return new NetworkIOData(pixelData);

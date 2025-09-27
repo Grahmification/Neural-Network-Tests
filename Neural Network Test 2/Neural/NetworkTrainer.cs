@@ -2,7 +2,7 @@
 {
     class NetworkTrainer
     {
-        public float[] CurrentErrors { get; private set; }
+        public float[] CurrentErrors { get; private set; } = [];
         public double CurrentAvgError { get { return CalcAverageError(CurrentErrors); }  }
         public int TrainingReportInterval { get; set; } = 1000;
         public NeuralNetwork Network { get; private set; }

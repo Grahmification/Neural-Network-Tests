@@ -22,7 +22,7 @@ namespace Neural_Network_Test_2
 
             loadSettings();
         }
-        private void onFormClosing(object sender, FormClosingEventArgs e)
+        private void onFormClosing(object? sender, FormClosingEventArgs e)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace Neural_Network_Test_2
             }      
         }
         
-        private async void onTrainRequest(object sender, EventArgs e)
+        private async void onTrainRequest(object? sender, EventArgs e)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Neural_Network_Test_2
                 }
                 else //stop training
                 {
-                    NetController.CancelTraining();                 
+                    NetController?.CancelTraining();                 
                 }                       
             }
             catch (OperationCanceledException) { }
@@ -82,7 +82,7 @@ namespace Neural_Network_Test_2
                 onTrainingStatusChange(false);
             }
         }
-        private async void onProcessRequest(object sender, EventArgs e)
+        private async void onProcessRequest(object? sender, EventArgs e)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace Neural_Network_Test_2
                 }
                 else //stop processing
                 {
-                    NetController.CancelProcessing();
+                    NetController?.CancelProcessing();
                 }          
             }
             catch (OperationCanceledException) { }

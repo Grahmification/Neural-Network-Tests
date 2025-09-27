@@ -20,10 +20,10 @@ namespace Neural_Network_Test_2
         public string TrainingButtonText { get { return button_Train.Text; } set { button_Train.Text = value; } }
         public string ProcessingButtonText { get { return button_process.Text; } set { button_process.Text = value; } }
 
-        public event EventHandler TrainButtonClicked;
-        public event EventHandler ProcessButtonClicked;
+        public event EventHandler? TrainButtonClicked;
+        public event EventHandler? ProcessButtonClicked;
 
-        private MainFormController Controller = null;
+        private MainFormController? Controller = null;
 
         public Mainform()
         {

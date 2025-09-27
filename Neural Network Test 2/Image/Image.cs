@@ -2,9 +2,9 @@
 {
     public class Image
     {
-        public Bitmap BaseImage { get; private set; }
-        public int Width { get { return BaseImage.Width; } }
-        public int Height { get { return BaseImage.Height; } }
+        public Bitmap? BaseImage { get; private set; }
+        public int Width { get { return BaseImage?.Width ?? 0; } }
+        public int Height { get { return BaseImage?.Height ?? 0; } }
         
         public string FolderPath { get; private set; } = "";
         public string FileName { get; private set; } = "";
@@ -50,12 +50,15 @@
 
         public void SaveImage(string folderPath, string fileName)
         {
-            //if the directory doesn't exist, create it first
-            if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
-            
-            string fullPath = folderPath + "\\" + fileName;
-            BaseImage.Save(fullPath);
+            if(BaseImage != null)
+            {
+                //if the directory doesn't exist, create it first
+                if (!Directory.Exists(folderPath))
+                    Directory.CreateDirectory(folderPath);
+
+                string fullPath = folderPath + "\\" + fileName;
+                BaseImage.Save(fullPath);
+            }
         }
         public void SetPixels(Color[,] input)
         {
@@ -74,6 +77,9 @@
         }
         public Color[,] GetPixels()
         {
+            if (BaseImage == null)
+                return new Color[0, 0];
+            
             var output = new Color[Width, Height];
 
             for (int i = 0; i < Width; i++)

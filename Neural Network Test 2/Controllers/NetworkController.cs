@@ -5,9 +5,9 @@ namespace Neural_Network_Test_2
     public abstract class NetworkController : INetworkController
     {      
         public abstract float[] CurrentTrainingError { get; protected set; }
-    
-        public NetworkIOData InputData { get; private set; }
-        public NetworkIOData SolnData { get; private set; }
+
+        public NetworkIOData? InputData { get; private set; }
+        public NetworkIOData? SolnData { get; private set; }
         public float LearningRate { get; private set; }
         public int ReportInterval { get; set; } = 10000;
 
@@ -95,12 +95,17 @@ namespace Neural_Network_Test_2
         protected abstract Task<List<float[]>> ProcessDoWork(IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default);
         protected int CalculateReportInterval(int reportInterval)
         {
+            if (InputData == null)
+            {
+                return 1;
+            }
+            
             return (int)Math.Round(InputData.Count / (double)reportInterval);
         }
 
-        private async Task PrepareInputData(INetworkData inputData, INetworkData solutionData = null, IProgress<NetworkProgressArgs> progress = default, CancellationToken cancel = default)
+        private async Task PrepareInputData(INetworkData inputData, INetworkData? solutionData = null, IProgress<NetworkProgressArgs>? progress = default, CancellationToken cancel = default)
         {
-            progress.Report(new NetworkProgressArgs(0, NetworkStatus.LoadingData));
+            progress?.Report(new NetworkProgressArgs(0, NetworkStatus.LoadingData));
 
             InputData = await inputData.GetInputDataAsync(progress, cancel);
 
