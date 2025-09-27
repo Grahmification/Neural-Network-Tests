@@ -64,4 +64,6 @@ The input and output images are below. The network does an extremely effective j
 #### License
 
 ![GitHub](https://img.shields.io/github/license/Grahmification/Neural-Network-Tests) Neural Network Tests is available for free under the MIT license.
-  
+
+Packages:
+- This project licenses [Oxyplot](https://oxyplot.github.io/) under the MIT License. Copyright (c) 2014 OxyPlot contributors.
