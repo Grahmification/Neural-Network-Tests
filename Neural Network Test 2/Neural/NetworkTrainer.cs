@@ -1,25 +1,22 @@
 ﻿namespace Neural_Network_Test_2.Neural
 {
-    class NetworkTrainer
+    /// <summary>
+    /// For training a neural network
+    /// </summary>
+    class NetworkTrainer(NeuralNetwork network)
     {
         public float[] CurrentErrors { get; private set; } = [];
-        public double CurrentAvgError { get { return CalcAverageError(CurrentErrors); }  }
+        public double CurrentAvgError => CalcAverageError(CurrentErrors);
         public int TrainingReportInterval { get; set; } = 1000;
-        public NeuralNetwork Network { get; private set; }
+        public NeuralNetwork Network { get; private set; } = network;
 
-        
-        public NetworkTrainer(NeuralNetwork network)
-        {
-            //------------------------------ Initialize Default Network ------------------------------------
-            Network = network;
-        }
         public async Task TrainAsync(NetworkIOData inputData, NetworkIOData dataSolution, float learningRate, int epochs, IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
         {
             await Task.Run(() => Train(inputData, dataSolution, learningRate, epochs, progress, cancel), cancel);
         }
+        
         public void Train(NetworkIOData inputData, NetworkIOData dataSolution, float learningRate, int epochs, IProgress<NetworkProgressArgs> progress, CancellationToken cancel = default)
         {
-
             //--------------------------------- Check for errors in input data -------------------------
 
             if (inputData.Count != dataSolution.Count)
@@ -38,31 +35,30 @@
                 {
                     cancel.ThrowIfCancellationRequested();
 
-                    Network.feedForward(inputData.data(i));
-                    CurrentErrors = Network.backPropagate(dataSolution.data(i), learningRate);
+                    Network.FeedForward(inputData.GetData(i));
+                    CurrentErrors = Network.BackPropagate(dataSolution.GetData(i), learningRate);
 
-                    if (i % reportInterval == 0) //only send update every few training steps
+                    if (i % reportInterval == 0) // Only send update every few training steps
                     {
-                        progress.Report(new NetworkProgressArgs(CalculateProgress(e, i, epochs, Count), NetworkStatus.Training)); //report progress for UI elements
+                        progress.Report(new NetworkProgressArgs(CalculateProgress(e, i, epochs, Count), NetworkStatus.Training)); // Report progress for UI elements
                     }
                 }
             }
-             
         }
        
-        private double CalcAverageError(float[] input)
+        public static double CalculateProgress(int currentEpoch, int currentTrainingStep, int maxEpochs, int maxTrainingSteps)
+        {
+            return ((currentEpoch * maxTrainingSteps) + currentTrainingStep + 1.0) / (maxEpochs * maxTrainingSteps);
+        }
+
+        private static double CalcAverageError(float[] input)
         {
             double output = 0;
-            for (int j = 0; j < input.Length; j++) //compute the average error
+            for (int j = 0; j < input.Length; j++) // Compute the average error
                 output += input[j];
             output /= input.Length;
 
             return output;
-        }
-
-        public static double CalculateProgress(int currentEpoch, int currentTrainingStep, int maxEpochs, int maxTrainingSteps)
-        {
-            return ((currentEpoch * maxTrainingSteps) + currentTrainingStep + 1.0) / (maxEpochs * maxTrainingSteps);
         }
     }
 }

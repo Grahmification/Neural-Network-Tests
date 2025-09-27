@@ -2,27 +2,30 @@
 
 namespace Neural_Network_Test_2
 {
+    /// <summary>
+    /// Main logic controlling class
+    /// </summary>
     public class MainFormController
     {
         public Mainform View { get; private set; }
 
-        PlotController PlotController; 
-        INetworkController NetController = new NetworkControllerIntegrated();
+        public PlotController PlotController { get; private set; }
+        public INetworkController NetController { get; private set; } = new NetworkControllerIntegrated();
 
         public MainFormController(Mainform view)
         {
             View = view;
             PlotController = new PlotController(view.ErrorPlot);
 
-            View.TrainButtonClicked += onTrainRequest;
-            View.ProcessButtonClicked += onProcessRequest;
-            View.FormClosing += onFormClosing;
+            View.TrainButtonClicked += OnTrainRequest;
+            View.ProcessButtonClicked += OnProcessRequest;
+            View.FormClosing += OnFormClosing;
 
-            View.AllowProcessing = false; //can't do this until we have trained the network
+            View.AllowProcessing = false; // Can't do this until we have trained the network
 
-            loadSettings();
+            LoadSettings();
         }
-        private void onFormClosing(object? sender, FormClosingEventArgs e)
+        private void OnFormClosing(object? sender, FormClosingEventArgs e)
         {
             try
             {
@@ -32,45 +35,45 @@ namespace Neural_Network_Test_2
 
                     if (result == DialogResult.Cancel)
                     {
-                        e.Cancel = true; //don't close
-                        return; //skip cancelling processes
+                        e.Cancel = true; // Don't close
+                        return; // Skip cancelling processes
                     }
                 }
 
-                //stop all processes running
+                // Stop all processes running
                 NetController.CancelProcessing();
                 NetController.CancelTraining();
 
-                //save user settings
-                saveSettings();
+                // Save user settings
+                SaveSettings();
             }
             catch (Exception ex)
             {
                 View.DisplayError(ex);
-            }      
+            }
         }
         
-        private async void onTrainRequest(object? sender, EventArgs e)
+        private async void OnTrainRequest(object? sender, EventArgs e)
         {
             try
             {
-                if(NetController?.Training == false) //start training
-                {                  
+                if(NetController?.Training == false) // Start training
+                {
                     PlotController.ResetData();
-                    onTrainingStatusChange(true);
+                    OnTrainingStatusChange(true);
 
-                    var progress = new Progress<NetworkProgressArgs>(s => onProgressUpdate(s));
+                    var progress = new Progress<NetworkProgressArgs>(s => OnProgressUpdate(s));
 
                     var inputData = new NetworkImage(View.WorkingFolder, View.TrainingInputPic);
                     var solutionData = new NetworkImage(View.WorkingFolder, View.TrainingSolnPic);
 
                     await NetController.Train(inputData, solutionData, View.LearingRate, progress);
-                    View.AllowProcessing = true; //now we can allow processing
+                    View.AllowProcessing = true; // Now we can allow processing
                 }
-                else //stop training
+                else // Stop training
                 {
-                    NetController?.CancelTraining();                 
-                }                       
+                    NetController?.CancelTraining();
+                }
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -79,30 +82,30 @@ namespace Neural_Network_Test_2
             }
             finally
             {
-                onTrainingStatusChange(false);
+                OnTrainingStatusChange(false);
             }
         }
-        private async void onProcessRequest(object? sender, EventArgs e)
+        private async void OnProcessRequest(object? sender, EventArgs e)
         {
             try
             {
-                if (NetController?.Processing == false) //start processing
+                if (NetController?.Processing == false) // Start processing
                 {
-                    onProcessingStatusChange(true);
-                    var progress = new Progress<NetworkProgressArgs>(s => onProgressUpdate(s));
+                    OnProcessingStatusChange(true);
+                    var progress = new Progress<NetworkProgressArgs>(s => OnProgressUpdate(s));
 
                     var inputPic = new NetworkImage(View.WorkingFolder, View.ProcessPic);
                     
                     var outputData = await NetController.Process(inputPic, progress);
                     var outputImage = new NetworkImage(outputData.DataList, inputPic.Width, inputPic.Height);
 
-                    outputImage.SaveImage(View.WorkingFolder, string.Format("{0} edited.{1}", inputPic.FileNameNoExtension, inputPic.FileExtension));
+                    outputImage.SaveImage(View.WorkingFolder, $"{inputPic.FileNameNoExtension} edited.{inputPic.FileExtension}");
 
                 }
-                else //stop processing
+                else // Stop processing
                 {
                     NetController?.CancelProcessing();
-                }          
+                }
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -111,11 +114,11 @@ namespace Neural_Network_Test_2
             }
             finally
             {
-                onProcessingStatusChange(false);
+                OnProcessingStatusChange(false);
             }
         }
 
-        private void onProgressUpdate(NetworkProgressArgs s)
+        private void OnProgressUpdate(NetworkProgressArgs s)
         {
             try
             {
@@ -125,7 +128,7 @@ namespace Neural_Network_Test_2
                 if (s.Status == NetworkStatus.Training)
                 {
                     var error = NetController.CurrentTrainingError;
-                    List<float> normalizedError = new List<float>();
+                    List<float> normalizedError = [];
 
                     for (int i = 0; i < error.Length; i++)
                     {
@@ -138,7 +141,7 @@ namespace Neural_Network_Test_2
                     for (int i = 0; i < normalizedError.Count; i++)
                     {
                         PlotController.AddDataPoint(s.Progress * 100.0, normalizedError[i], i);
-                        PlotController.RefreshPlot();                     
+                        PlotController.RefreshPlot();
                     }
                 }
             }
@@ -147,25 +150,25 @@ namespace Neural_Network_Test_2
                 View.DisplayError(ex);
             }
         }
-        private void onTrainingStatusChange(bool started)
+        private void OnTrainingStatusChange(bool started)
         {
-            if (started) //training started
+            if (started) // Training started
             {
                 View.AllowProcessing = false;
                 View.TrainingButtonText = "Cancel Training";
             }
-            else //training stopped
+            else // Training stopped
             {
                 View.TrainingButtonText = "Train NN";
             }
         }
-        private void onProcessingStatusChange(bool started)
+        private void OnProcessingStatusChange(bool started)
         {
-            if (started) //training started
+            if (started) // Training started
             {
                 View.ProcessingButtonText = "Cancel Processing";
             }
-            else //training stopped
+            else // Training stopped
             {
                 View.ProcessingButtonText = "Process Picture";
             }
@@ -176,7 +179,7 @@ namespace Neural_Network_Test_2
         /// <summary>
         /// Loads saved user settings into the GUI.
         /// </summary>
-        private void loadSettings()
+        private void LoadSettings()
         {
             View.WorkingFolder = Properties.Settings.Default.WorkingFolder;
             View.TrainingInputPic = Properties.Settings.Default.TrainingInputPic;
@@ -187,7 +190,7 @@ namespace Neural_Network_Test_2
         /// <summary>
         /// Saves user settings from the GUI
         /// </summary>
-        private void saveSettings()
+        private void SaveSettings()
         {
             Properties.Settings.Default.WorkingFolder = View.WorkingFolder;
             Properties.Settings.Default.TrainingInputPic = View.TrainingInputPic;

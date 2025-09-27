@@ -2,6 +2,9 @@
 
 namespace Neural_Network_Test_2
 {
+    /// <summary>
+    /// Pre-processes an image into data that can be fed into a neural network
+    /// </summary>
     public class NetworkImage : Image, INetworkData
     {
         public NetworkImage(List<float[]> pixelData, int width, int height) : base()
@@ -20,25 +23,22 @@ namespace Neural_Network_Test_2
 
             SetPixels(pixels);
         }
-        public NetworkImage(string folderPath, string fileName) : base(folderPath, fileName)
-        {
-
-        }
+        public NetworkImage(string folderPath, string fileName) : base(folderPath, fileName) { }
 
         public async Task<NetworkIOData> GetSolutionDataAsync(IProgress<NetworkProgressArgs>? progress, CancellationToken cancel = default)
         {
-            return await Task.Run(() => GetSolutionData(progress, cancel), cancel); 
+            return await Task.Run(() => GetSolutionData(progress, cancel), cancel);
         }   
         public async Task<NetworkIOData> GetInputDataAsync(IProgress<NetworkProgressArgs>? progress, CancellationToken cancel = default)
         {
-             return await Task.Run(() => GetInputData(progress, cancel), cancel);     
+            return await Task.Run(() => GetInputData(progress, cancel), cancel);
         }
 
         public NetworkIOData GetSolutionData(IProgress<NetworkProgressArgs>? progress, CancellationToken cancel = default)
         {
             var pixelData = new List<float[]>();
             int counter = 0;
-            int ValueCount = Width * Height;
+            int valueCount = Width * Height;
 
             if (BaseImage == null) { return new NetworkIOData(pixelData); }
 
@@ -49,17 +49,17 @@ namespace Neural_Network_Test_2
                     cancel.ThrowIfCancellationRequested();
 
                     pixelData.Add(ConvertPixelToData(BaseImage.GetPixel(i, j)));
-                    counter++;                   
+                    counter++;
                 }
                 
-                progress?.Report(new NetworkProgressArgs(counter / (double)ValueCount, NetworkStatus.PreparingData)); //only report progress every row
+                progress?.Report(new NetworkProgressArgs(counter / (double)valueCount, NetworkStatus.PreparingData)); // Only report progress every row
             }
 
             return new NetworkIOData(pixelData);
         }
         public NetworkIOData GetInputData(IProgress<NetworkProgressArgs>? progress, CancellationToken cancel = default)
         {
-            var inputFloat = GetPixels(); //gets all pre-converted pixels
+            var inputFloat = GetPixels(); // Gets all pre-converted pixels
             var pixelData = new List<float[]>();
 
             int counter = 0;
@@ -71,9 +71,10 @@ namespace Neural_Network_Test_2
                 {
                     cancel.ThrowIfCancellationRequested();
 
-                    var pixelList = new List<Color>();
-
-                    pixelList.Add(inputFloat[i, j]);
+                    var pixelList = new List<Color>
+                    {
+                        inputFloat[i, j]
+                    };
 
                     if (i == 0) { pixelList.Add(inputFloat[i + 1, j]); }
                     else { pixelList.Add(inputFloat[i - 1, j]); }
@@ -87,11 +88,11 @@ namespace Neural_Network_Test_2
                     if (j == Height - 1) { pixelList.Add(inputFloat[i, j - 1]); }
                     else { pixelList.Add(inputFloat[i, j + 1]); }
 
-                    pixelData.Add(ConvertPixelArrayToData(pixelList.ToArray()));
-                    counter++;                 
+                    pixelData.Add(ConvertPixelArrayToData([.. pixelList]));
+                    counter++;
                 }
                 
-                progress?.Report(new NetworkProgressArgs(counter / (double)ValueCount, NetworkStatus.PreparingData)); //only report progress every row
+                progress?.Report(new NetworkProgressArgs(counter / (double)ValueCount, NetworkStatus.PreparingData)); // Only report progress every row
             }
 
             return new NetworkIOData(pixelData);
@@ -99,17 +100,16 @@ namespace Neural_Network_Test_2
 
         public static float[] ConvertPixelToData(Color input)
         {
-            var output = new float[] { input.R, input.G, input.B };
+            float[] output = [input.R, input.G, input.B];
 
             for (int i = 0; i < output.Length; i++)
-                output[i] /= 255.0f; //normalize each value to a decimal between 0 and 1.
+                output[i] /= 255.0f; // Normalize each value to a decimal between 0 and 1.
 
             return output;
         }
         public static float[] ConvertPixelArrayToData(Color[] input)
         {
             var output = new float[3 * input.Length];
-
             int counter = 0;
 
             for (int i = 0; i < input.Length; i++)
@@ -122,31 +122,28 @@ namespace Neural_Network_Test_2
             }
 
             for (int i = 0; i < output.Length; i++)
-                output[i] /= 255.0f; //normalize each value to a decimal between 0 and 1.
+                output[i] /= 255.0f; // Normalize each value to a decimal between 0 and 1.
 
             return output;
         }
         public static Color ConvertDataToPixel(float[] input)
         {
-            var output = Color.FromArgb(0, 0, 0); //initialize output as black color
-
-            // ---------------un-normalize all input data ----------------------
+            // --------------- Un-normalize all input data ----------------------
             int[] normalizedInput = new int[input.Length];
 
             for (int i = 0; i < input.Length; i++)
             {
-                input[i] *= 255; //was originally normalized between 0, 1 prior to processing
+                input[i] *= 255; // Was originally normalized between 0, 1 prior to processing
 
-                if (input[i] > 255) { input[i] = 255; } //constrain between 0, 255
+                if (input[i] > 255) { input[i] = 255; } // Constrain between 0, 255
                 if (input[i] < 0) { input[i] = 0; }
 
-                input[i] = (float)Math.Round(input[i]); //round to nearest whole number
+                input[i] = (float)Math.Round(input[i]); // Round to nearest whole number
 
-                normalizedInput[i] = (int)input[i]; //convert to integer
+                normalizedInput[i] = (int)input[i]; // Convert to integer
             }
 
-            output = Color.FromArgb(normalizedInput[0], normalizedInput[1], normalizedInput[2]); //convert RGB to color 
-            return output;
+            return Color.FromArgb(normalizedInput[0], normalizedInput[1], normalizedInput[2]); // Convert RGB to color 
         }
     }
 }

@@ -7,7 +7,7 @@
         public BipolarSigmoidFunction() { }
         public BipolarSigmoidFunction(double alpha)
         {
-            this.Alpha = (float)alpha;
+            Alpha = (float)alpha;
         }
 
         public float Derivative(float x)

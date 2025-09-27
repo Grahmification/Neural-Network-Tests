@@ -12,18 +12,17 @@
             Button btn = (Button)sender;
             btn.Enabled = false;
 
-            int learningSteps = Int32.Parse(textBox_learningSteps.Text);
+            int learningSteps = int.Parse(textBox_learningSteps.Text);
             float learningRate = float.Parse(textBox_learningRate.Text);
 
             var progress = new Progress<double>(s => progressBar1.Value = (int)(s*100));
-            var errorProgress = new Progress<float[]>(s => updateErrorCharts(s));
-            var net = await Task.Factory.StartNew<neuralNetwork>(() => trainXOR(progress, errorProgress , learningRate, learningSteps));
+            var errorProgress = new Progress<float[]>(s => UpdateErrorCharts(s));
+            var net = await Task.Factory.StartNew(() => TrainXOR(progress, errorProgress , learningRate, learningSteps));
 
             btn.Enabled = true;
-
         }
 
-        private void updateErrorCharts(float[] error)
+        private void UpdateErrorCharts(float[] error)
         {
             for(int i = 0; i < error.Length; i++)
             {
@@ -41,38 +40,37 @@
             progressBar_Error8.Value = (int)(error[7] * 100);
         }
 
-
-        public neuralNetwork trainXOR(IProgress<double> progress, IProgress<float[]> errorUpdate, float learningRate, int learningSteps)
+        public NeuralNetwork TrainXOR(IProgress<double> progress, IProgress<float[]> errorUpdate, float learningRate, int learningSteps)
         {
-            neuralNetwork net = new neuralNetwork(new int[] { 3, 25, 25, 1 }, learningRate); // 3 inputs, 2 x 25 neuron hidden layers, 1 output
+            NeuralNetwork net = new([3, 25, 25, 1], learningRate); // 3 inputs, 2 x 25 neuron hidden layers, 1 output
 
-            for (int i = 0; i < learningSteps; i++) //iterate over 5000 learning steps
+            for (int i = 0; i < learningSteps; i++) // Iterate over 5000 learning steps
             {
                 float[] error = new float[8];
 
-                net.feedForward(new float[] { 0, 0, 0 });
-                error[0] = net.backPropagate(new float[] { 0 })[0];
+                net.FeedForward([0, 0, 0]);
+                error[0] = net.BackPropagate([0])[0];
 
-                net.feedForward(new float[] { 0, 0, 1 });
-                error[1] = net.backPropagate(new float[] { 1 })[0];
+                net.FeedForward([0, 0, 1]);
+                error[1] = net.BackPropagate([1])[0];
 
-                net.feedForward(new float[] { 0, 1, 0 });
-                error[2] = net.backPropagate(new float[] { 1 })[0];
+                net.FeedForward([0, 1, 0]);
+                error[2] = net.BackPropagate([1])[0];
 
-                net.feedForward(new float[] { 0, 1, 1 });
-                error[3] = net.backPropagate(new float[] { 0 })[0];
+                net.FeedForward([0, 1, 1]);
+                error[3] = net.BackPropagate([0])[0];
 
-                net.feedForward(new float[] { 1, 0, 0 });
-                error[4] = net.backPropagate(new float[] { 1 })[0];
+                net.FeedForward([1, 0, 0]);
+                error[4] = net.BackPropagate([1])[0];
 
-                net.feedForward(new float[] { 1, 0, 1 });
-                error[5] = net.backPropagate(new float[] { 0 })[0];
+                net.FeedForward([1, 0, 1]);
+                error[5] = net.BackPropagate([0])[0];
 
-                net.feedForward(new float[] { 1, 1, 0 });
-                error[6] = net.backPropagate(new float[] { 0 })[0];
+                net.FeedForward([1, 1, 0]);
+                error[6] = net.BackPropagate([0])[0];
 
-                net.feedForward(new float[] { 1, 1, 1 });
-                error[7] = net.backPropagate(new float[] { 1 })[0];
+                net.FeedForward([1, 1, 1]);
+                error[7] = net.BackPropagate([1])[0];
 
                 if (i % 10 == 0 )
                 {
@@ -84,189 +82,202 @@
 
             return net;
         }
-
-        
     }
 
 
-
-    public class neuralNetwork
+    /// <summary>
+    /// A neural network
+    /// </summary>
+    public class NeuralNetwork
     {
         // tutorial: https://www.youtube.com/watch?v=L_PByyJ9g-I
         // "Neural Network - Back-Propagation Tutorial In C#"
 
-        int[] layer;
-        Layer[] layers;
+        public int[] Layer { get; private set; }
+        public Layer[] Layers { get; private set; }
 
-        public neuralNetwork(int[] layer, float learningRate)
+        public NeuralNetwork(int[] layer, float learningRate)
         {
-            this.layer = new int[layer.Length];
+            Layer = new int[layer.Length];
             for (int i = 0; i < layer.Length; i++)
-                this.layer[i] = layer[i];
+                Layer[i] = layer[i];
 
-            layers = new Layer[layer.Length-1];
+            Layers = new Layer[layer.Length-1];
 
-            for (int i = 0; i < layers.Length; i++)
+            for (int i = 0; i < Layers.Length; i++)
             {
-                layers[i] = new Layer(layer[i], layer[i + 1], learningRate);
+                Layers[i] = new Layer(layer[i], layer[i + 1], learningRate);
+            }
+        }
+        public float[] FeedForward(float[] inputs)
+        {
+            Layers[0].FeedForward(inputs);
+
+            for(int i = 1; i < Layers.Length; i++)
+            {
+                Layers[i].FeedForward(Layers[i - 1].Outputs);
             }
 
+            return Layers[^1].Outputs;
         }
-        public float[] feedForward(float[] inputs)
+        public float[] BackPropagate(float[] expectedValues)
         {
-            layers[0].feedForward(inputs);
-
-            for(int i = 1; i < layers.Length; i++)
+            for (int i = Layers.Length -1 ; i >= 0; i--)
             {
-                layers[i].feedForward(layers[i - 1].outputs);
-            }
-
-            return layers[layers.Length - 1].outputs;
-        }
-        public float[] backPropagate(float[] expectedValues)
-        {
-
-            for (int i = layers.Length -1 ; i >= 0; i--)
-            {
-                if (i == layers.Length - 1)
+                if (i == Layers.Length - 1)
                 {
-                    layers[i].backPropagateOutput(expectedValues);
+                    Layers[i].BackPropagateOutput(expectedValues);
                 }
                 else
                 {
-                    layers[i].backPropagateHidden(layers[i + 1].gamma, layers[i + 1].weights);
+                    Layers[i].BackPropagateHidden(Layers[i + 1].Gamma, Layers[i + 1].Weights);
                 }
             }
 
-            for (int i = 0; i < layers.Length; i++)
+            for (int i = 0; i < Layers.Length; i++)
             {
-                layers[i].updateWeights(); //now that weight deltas have been calculated must apply all of them
+                Layers[i].UpdateWeights(); // Now that weight deltas have been calculated must apply all of them
             }
 
-            return layers[layers.Length - 1].error; //returns error of final output layer
+            return Layers[^1].Error; // Returns error of final output layer
         }
-
-        public class Layer
-        {
-            int numberOfInputs; //number of neurons in previous layer
-            int numberOfOutputs; //number of neurons in current layer
-
-            public float[] outputs;
-            public float[] inputs;
-            public float[,] weights;
-            public float[,] weightDeltas; //amount to change weight by at each learning step
-            public float[] gamma; //value needed for back-propagation
-            public float[] error;
-            public float learningRate;
-            public static Random random = new Random();
-
-            public Layer(int numberOfInputs, int numberOfOutputs, float learningRate)
-            {
-                this.numberOfInputs = numberOfInputs;
-                this.numberOfOutputs = numberOfOutputs;
-                this.learningRate = learningRate;
-
-                outputs = new float[numberOfOutputs];
-                inputs = new float[numberOfInputs];
-                weights = new float[numberOfOutputs, numberOfInputs];
-                weightDeltas = new float[numberOfOutputs, numberOfInputs];
-                gamma = new float[numberOfOutputs];
-                error = new float[numberOfOutputs];
-
-                initializeWeights();
-
-            }
-
-            public void initializeWeights()
-            {
-                for(int i =0; i < numberOfOutputs; i++)
-                {
-                    for(int j = 0; j < numberOfInputs; j++)
-                    {
-                        weights[i, j] = (float)random.NextDouble() - 0.5f;
-                    }
-                }
-            }
-            public void updateWeights()
-            {
-                for (int i = 0; i < numberOfOutputs; i++)
-                {
-                    for (int j = 0; j < numberOfInputs; j++)
-                    {
-                        weights[i, j] -= weightDeltas[i, j] * learningRate;
-                    }
-                }
-            } //update weights for each learning step
-
-            public float[] feedForward(float[] input)
-            {
-                this.inputs = input;
-
-                for (int i=0; i < numberOfOutputs; i++) //iterate over each neuron in current layer
-                {
-                    outputs[i] = 0;
-
-                    for (int j = 0; j < numberOfInputs; j++) //iterate over each neuron in previous layer
-                    {
-                        outputs[i] += inputs[j] * weights[i, j];
-                    }
-
-                    outputs[i] = (float)Math.Tanh(outputs[i]); //squelch each current layer node value using Tanh
-                }
-
-                return outputs;
-            }
-
-            public void backPropagateOutput(float[] expected)
-            {
-                for (int i = 0; i < numberOfOutputs; i++)
-                    error[i] = outputs[i] - expected[i]; //first calculate error
-
-                for (int i = 0; i < numberOfOutputs; i++)
-                    gamma[i] = error[i] * tanhDer(outputs[i]);
-
-                //---------------update  weight deltas ----------------------------------
-
-                for (int i = 0; i < numberOfOutputs; i++)
-                {
-                    for (int j = 0; j < numberOfInputs; j++)
-                    {
-                        weightDeltas[i, j] = gamma[i] * inputs[j];
-                    }
-                }
-                
-            } //back propagation function for output layer
-            public void backPropagateHidden(float[] gammaForward, float[,] weightsForward)
-            {
-                for (int i = 0; i < numberOfOutputs; i++)
-                {
-                    gamma[i] = 0;
-
-                    for (int j =0; j < gammaForward.Length; j++)
-                    {
-                        gamma[i] += gammaForward[j] * weightsForward[j, i];
-                    }
-
-                    gamma[i] *= tanhDer(outputs[i]);
-                }
-
-                //---------------update  weight deltas ----------------------------------
-
-                for (int i = 0; i < numberOfOutputs; i++) 
-                {
-                    for (int j = 0; j < numberOfInputs; j++)
-                    {
-                        weightDeltas[i, j] = gamma[i] * inputs[j];
-                    }
-                }
-                    
-            } //back propagation function for hidden layers
-            public float tanhDer(float value)
-            {
-                return 1 - (value * value); //calculate the derivative of tanh(x)
-            }
-        }
-
     }
 
+    public class Layer
+    {
+        private readonly int _numberOfInputs; // Number of neurons in previous layer
+        private readonly int _numberOfOutputs; // Number of neurons in current layer
+        private readonly static Random _random = new();
+
+        public float[] Outputs { get; private set; }
+        public float[] Inputs { get; private set; }
+        public float[,] Weights { get; private set; }
+        public float[,] WeightDeltas { get; private set; } // Amount to change weight by at each learning step
+        public float[] Gamma { get; private set; } // Value needed for back-propagation
+        public float[] Error { get; private set; }
+        public float LearningRate { get; private set; }
+
+        public Layer(int numberOfInputs, int numberOfOutputs, float learningRate)
+        {
+            _numberOfInputs = numberOfInputs;
+            _numberOfOutputs = numberOfOutputs;
+            LearningRate = learningRate;
+
+            Outputs = new float[numberOfOutputs];
+            Inputs = new float[numberOfInputs];
+            Weights = new float[numberOfOutputs, numberOfInputs];
+            WeightDeltas = new float[numberOfOutputs, numberOfInputs];
+            Gamma = new float[numberOfOutputs];
+            Error = new float[numberOfOutputs];
+
+            InitializeWeights();
+        }
+
+        public void InitializeWeights()
+        {
+            for (int i = 0; i < _numberOfOutputs; i++)
+            {
+                for (int j = 0; j < _numberOfInputs; j++)
+                {
+                    Weights[i, j] = (float)_random.NextDouble() - 0.5f;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Update weights for each learning step
+        /// </summary>
+        public void UpdateWeights()
+        {
+            for (int i = 0; i < _numberOfOutputs; i++)
+            {
+                for (int j = 0; j < _numberOfInputs; j++)
+                {
+                    Weights[i, j] -= WeightDeltas[i, j] * LearningRate;
+                }
+            }
+        }
+        public float[] FeedForward(float[] input)
+        {
+            Inputs = input;
+
+            for (int i = 0; i < _numberOfOutputs; i++) // Iterate over each neuron in current layer
+            {
+                Outputs[i] = 0;
+
+                for (int j = 0; j < _numberOfInputs; j++) // Iterate over each neuron in previous layer
+                {
+                    Outputs[i] += Inputs[j] * Weights[i, j];
+                }
+
+                Outputs[i] = (float)Math.Tanh(Outputs[i]); // Squelch each current layer node value using Tanh
+            }
+
+            return Outputs;
+        }
+
+        /// <summary>
+        /// Back propagation function for output layer
+        /// </summary>
+        /// <param name="expected">Expected output value</param>
+        public void BackPropagateOutput(float[] expected)
+        {
+            for (int i = 0; i < _numberOfOutputs; i++)
+                Error[i] = Outputs[i] - expected[i]; // First calculate error
+
+            for (int i = 0; i < _numberOfOutputs; i++)
+                Gamma[i] = Error[i] * TanhDer(Outputs[i]);
+
+            //---------------update  weight deltas ----------------------------------
+
+            for (int i = 0; i < _numberOfOutputs; i++)
+            {
+                for (int j = 0; j < _numberOfInputs; j++)
+                {
+                    WeightDeltas[i, j] = Gamma[i] * Inputs[j];
+                }
+            }
+        }
+
+        /// <summary>
+        /// Back propagation function for hidden layers
+        /// </summary>
+        /// <param name="gammaForward"></param>
+        /// <param name="weightsForward"></param>
+        public void BackPropagateHidden(float[] gammaForward, float[,] weightsForward)
+        {
+            for (int i = 0; i < _numberOfOutputs; i++)
+            {
+                Gamma[i] = 0;
+
+                for (int j = 0; j < gammaForward.Length; j++)
+                {
+                    Gamma[i] += gammaForward[j] * weightsForward[j, i];
+                }
+
+                Gamma[i] *= TanhDer(Outputs[i]);
+            }
+
+            //---------------update  weight deltas ----------------------------------
+
+            for (int i = 0; i < _numberOfOutputs; i++)
+            {
+                for (int j = 0; j < _numberOfInputs; j++)
+                {
+                    WeightDeltas[i, j] = Gamma[i] * Inputs[j];
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Calculate the derivative of tanh(x)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static float TanhDer(float value)
+        {
+            return 1 - (value * value);
+        }
+    }
 }

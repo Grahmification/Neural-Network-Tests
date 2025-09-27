@@ -1,27 +1,23 @@
 ﻿namespace Neural_Network_Test_2
 {
+    /// <summary>
+    /// A color pixel in an image
+    /// </summary>
     public class Pixel
     {
-        public int R { get; private set; } = -1; //RGB red component
-        public int G { get; private set; } = -1; //RGB green component
-        public int B { get; private set; } = -1; //RGB blue component
-        public int[] Pos { get; private set; } = new int[] { -1, -1 }; //store pixel's position in image if needed
+        public int R { get; private set; } = -1; // RGB red component
+        public int G { get; private set; } = -1; // RGB green component
+        public int B { get; private set; } = -1; // RGB blue component
+        public int[] Position { get; private set; } = [-1, -1]; // Store pixel's position in image if needed
 
-        public Pixel(int R, int G, int B)
+        public Pixel(int r, int g, int b, int[]? pos = null)
         {
-            this.R = R;
-            this.G = G;
-            this.B = B;
+            R = r;
+            G = g;
+            B = b;
 
-            this.Pos = new int[] { -1, -1 }; //no position given
-        }
-        public Pixel(int R, int G, int B, int[] pos)
-        {
-            this.R = R;
-            this.G = G;
-            this.B = B;
-
-            this.Pos = pos;
+            // No position given if null [-1, -1]
+            Position = pos ?? ([-1, -1]);
         }
     }
 }

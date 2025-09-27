@@ -8,7 +8,7 @@
         }
         public float Derivative(float x)
         {
-            return 1 - (x * x); //derivative of tanh(x)
+            return 1 - (x * x); // Derivative of tanh(x)
         }
         public float Derivative2(float x)
         {

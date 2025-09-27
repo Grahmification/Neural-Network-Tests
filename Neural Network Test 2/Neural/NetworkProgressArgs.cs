@@ -1,51 +1,37 @@
 ﻿namespace Neural_Network_Test_2.Neural
 {
-    public class NetworkProgressArgs
+    public class NetworkProgressArgs(double progress, NetworkStatus status, string statusStringArgs = "")
     {
-        public NetworkStatus Status { get; set; } = NetworkStatus.Idle;
+        public NetworkStatus Status { get; private set; } = status;
         public string StatusString 
         {
             get
             {
-                switch (Status) 
+                return Status switch
                 {
-                    case NetworkStatus.Complete:
-                        return "Complete";
-
-                    case NetworkStatus.Cancelled:
-                        return "Cancelled";
-
-                    case NetworkStatus.Idle:
-                        return "Idle";
-
-                    case NetworkStatus.LoadingData:
-                        return "Loading Data";
-
-                    case NetworkStatus.PreparingData:
-                        return "Preparing Data";
-
-                    case NetworkStatus.Processing:
-                        return "Processing";
-
-                    case NetworkStatus.Training:
-                        return "Training";
-                    default:
-                        return "";
-                }
-
+                    NetworkStatus.Complete => "Complete",
+                    NetworkStatus.Cancelled => "Cancelled",
+                    NetworkStatus.Idle => "Idle",
+                    NetworkStatus.LoadingData => "Loading Data",
+                    NetworkStatus.PreparingData => "Preparing Data",
+                    NetworkStatus.Processing => "Processing",
+                    NetworkStatus.Training => "Training",
+                    _ => "",
+                };
             } 
         }
-        
-        public string StatusStringArgs = "";
-        public double Progress { get; set; } = 0; //ranges from 0-1
-        public int PercentProgress { get { return (int)(Progress * 100.0); } } //for progressbar
 
-        public NetworkProgressArgs(double progress, NetworkStatus status, string statusStringArgs = "")
-        {
-            Progress = progress;
-            Status = status;
-            StatusStringArgs = statusStringArgs;
-        }
+        public string StatusStringArgs { get; private set; } = statusStringArgs;
+
+        /// <summary>
+        /// Progress from 0 to 1
+        /// </summary>
+        public double Progress { get; private set; } = progress;
+
+        /// <summary>
+        /// Progress from 0 to 100 for progress bar
+        /// </summary>
+        public int PercentProgress => (int)(Progress * 100.0);
     }
 
     public enum NetworkStatus { LoadingData, PreparingData, Training, Processing, Idle, Cancelled, Complete}

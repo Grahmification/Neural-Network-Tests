@@ -2,6 +2,9 @@
 
 namespace Neural_Network_Test_2
 {
+    /// <summary>
+    /// Generic definition for a controller managing a neural network
+    /// </summary>
     public interface INetworkController
     {
         float[] CurrentTrainingError { get; }

@@ -2,8 +2,11 @@
 
 namespace Neural_Network_Test_2
 {
+    /// <summary>
+    /// Base class for controlling neural network logic without defining training/processing methods
+    /// </summary>
     public abstract class NetworkController : INetworkController
-    {      
+    {
         public abstract float[] CurrentTrainingError { get; protected set; }
 
         public NetworkIOData? InputData { get; private set; }
@@ -15,8 +18,8 @@ namespace Neural_Network_Test_2
         public bool Processing { get; private set; } = false; 
         public bool NetWorkTrained { get; private set; } = false;
 
-        private CancellationTokenSource trainingTokenSource = new CancellationTokenSource();
-        private CancellationTokenSource processingTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource trainingTokenSource = new();
+        private CancellationTokenSource processingTokenSource = new();
 
         public virtual async Task Train(INetworkData inputData, INetworkData solutionData, float learningRate, IProgress<NetworkProgressArgs> progress)
         {
@@ -27,15 +30,15 @@ namespace Neural_Network_Test_2
                 Training = true;
                 NetWorkTrained = false;
                 
-                await PrepareInputData(inputData, solutionData, progress, trainingTokenSource.Token);              
-                await TrainDoWork(progress, trainingTokenSource.Token); //call derived class to do training
+                await PrepareInputData(inputData, solutionData, progress, trainingTokenSource.Token);
+                await TrainDoWork(progress, trainingTokenSource.Token); // Call derived class to do training
 
                 NetWorkTrained = true;
                 progress.Report(new NetworkProgressArgs(1, NetworkStatus.Complete));
             }
             finally
             {
-                //notify the GUI if we are finished due to cancellation
+                // Notify the GUI if we are finished due to cancellation
                 if (trainingTokenSource.IsCancellationRequested)
                     progress.Report(new NetworkProgressArgs(0, NetworkStatus.Cancelled));
 
@@ -46,7 +49,7 @@ namespace Neural_Network_Test_2
         {
             try
             {
-                //the network must be trained before we can process using it. 
+                // The network must be trained before we can process using it. 
                 if(!NetWorkTrained)
                     throw new Exception("The network has not been trained yet.");
 
@@ -54,14 +57,14 @@ namespace Neural_Network_Test_2
                 Processing = true;
                 
                 await PrepareInputData(inputData, null, progress, processingTokenSource.Token);
-                var outputData = await ProcessDoWork(progress, processingTokenSource.Token); //call derived class to do calculation
+                var outputData = await ProcessDoWork(progress, processingTokenSource.Token); // Call derived class to do calculation
                 
                 progress.Report(new NetworkProgressArgs(1, NetworkStatus.Complete));
                 return new NetworkIOData(outputData);
             }
             finally
             {
-                //notify the GUI if we are finished due to cancellation
+                // Notify the GUI if we are finished due to cancellation
                 if (processingTokenSource.IsCancellationRequested)
                     progress.Report(new NetworkProgressArgs(0, NetworkStatus.Cancelled));
 
@@ -109,8 +112,8 @@ namespace Neural_Network_Test_2
 
             InputData = await inputData.GetInputDataAsync(progress, cancel);
 
-            //this method is also used for processing, when there is no solution specified
-            if (!(solutionData is null))
+            // This method is also used for processing, when there is no solution specified
+            if (solutionData is not null)
                 SolnData = await solutionData.GetSolutionDataAsync(progress, cancel);
         }
     }

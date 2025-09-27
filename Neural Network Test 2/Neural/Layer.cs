@@ -1,111 +1,132 @@
 ﻿namespace Neural_Network_Test_2.Neural
 {
+    /// <summary>
+    /// Layer in a neural network
+    /// </summary>
     public class Layer
     {
-        int numberOfInputs; //number of neurons in previous layer
-        int numberOfOutputs; //number of neurons in current layer
+        private readonly int _numberOfInputs; // Number of neurons in previous layer
+        private readonly int _numberOfOutputs; // Number of neurons in current layer
+        private static readonly Random _random = new();
 
-        public float[] outputs;
-        public float[] inputs;
-        public float[,] weights;
-        public float[,] weightDeltas; //amount to change weight by at each learning step
-        public float[] gamma; //value needed for back-propagation
-        public float[] error;
-        public static Random random = new Random();
+        public float[] Outputs { get; private set; }
+        public float[] Inputs { get; private set; }
+        public float[,] Weights { get; private set; }
+        public float[,] weightDeltas { get; private set; } // Amount to change weight by at each learning step
+        public float[] Gamma { get; private set; } // Value needed for back-propagation
+        public float[] Error { get; private set; }
 
         public IActivationFunction ActFunction { get; private set; }
 
         public Layer(int numberOfInputs, int numberOfOutputs, IActivationFunction function)
         {
-            this.numberOfInputs = numberOfInputs;
-            this.numberOfOutputs = numberOfOutputs;
-            this.ActFunction = function;
+            _numberOfInputs = numberOfInputs;
+            _numberOfOutputs = numberOfOutputs;
+            ActFunction = function;
 
-            outputs = new float[numberOfOutputs];
-            inputs = new float[numberOfInputs];
-            weights = new float[numberOfOutputs, numberOfInputs];
+            Outputs = new float[numberOfOutputs];
+            Inputs = new float[numberOfInputs];
+            Weights = new float[numberOfOutputs, numberOfInputs];
             weightDeltas = new float[numberOfOutputs, numberOfInputs];
-            gamma = new float[numberOfOutputs];
-            error = new float[numberOfOutputs];
+            Gamma = new float[numberOfOutputs];
+            Error = new float[numberOfOutputs];
 
-            initializeWeights();
+            InitializeWeights();
         }
 
-
-        public float[] feedForward(float[] input)
+        public float[] FeedForward(float[] input)
         {
-            this.inputs = input;
+            Inputs = input;
 
-            for (int i = 0; i < numberOfOutputs; i++) //iterate over each neuron in current layer
+            for (int i = 0; i < _numberOfOutputs; i++) // Iterate over each neuron in current layer
             {
-                outputs[i] = 0;
+                Outputs[i] = 0;
 
-                for (int j = 0; j < numberOfInputs; j++) //iterate over each neuron in previous layer
+                for (int j = 0; j < _numberOfInputs; j++) // Iterate over each neuron in previous layer
                 {
-                    outputs[i] += inputs[j] * weights[i, j];
+                    Outputs[i] += Inputs[j] * Weights[i, j];
                 }
 
-                outputs[i] = ActFunction.Function(outputs[i]); //squelch each current layer node value using desired function
+                Outputs[i] = ActFunction.Function(Outputs[i]); // Squelch each current layer node value using desired function
             }
 
-            return outputs;
+            return Outputs;
         }
-        public void backPropagateOutput(float[] expected)
+
+        /// <summary>
+        /// Back propagation function for output layer
+        /// </summary>
+        /// <param name="expected">The expected result values</param>
+        public void BackPropagateOutput(float[] expected)
         {
-            for (int i = 0; i < numberOfOutputs; i++)
-                error[i] = outputs[i] - expected[i]; //first calculate error
+            for (int i = 0; i < _numberOfOutputs; i++)
+                Error[i] = Outputs[i] - expected[i]; // First calculate error
 
-            for (int i = 0; i < numberOfOutputs; i++)
-                gamma[i] = error[i] * ActFunction.Derivative(outputs[i]);
+            for (int i = 0; i < _numberOfOutputs; i++)
+                Gamma[i] = Error[i] * ActFunction.Derivative(Outputs[i]);
 
-            UpdateWeightDeltas(); //update weight deltas
+            UpdateWeightDeltas(); // Update weight deltas
 
-        } //back propagation function for output layer
-        public void backPropagateHidden(float[] gammaForward, float[,] weightsForward)
+        }
+
+        /// <summary>
+        /// Back propagation function for hidden layers
+        /// </summary>
+        /// <param name="gammaForward"></param>
+        /// <param name="weightsForward"></param>
+        public void BackPropagateHidden(float[] gammaForward, float[,] weightsForward)
         {
-            for (int i = 0; i < numberOfOutputs; i++)
+            for (int i = 0; i < _numberOfOutputs; i++)
             {
-                gamma[i] = 0;
+                Gamma[i] = 0;
 
                 for (int j = 0; j < gammaForward.Length; j++)
                 {
-                    gamma[i] += gammaForward[j] * weightsForward[j, i];
+                    Gamma[i] += gammaForward[j] * weightsForward[j, i];
                 }
 
-                gamma[i] *= ActFunction.Derivative(outputs[i]);
+                Gamma[i] *= ActFunction.Derivative(Outputs[i]);
             }
 
-            UpdateWeightDeltas(); //update weight deltas
+            UpdateWeightDeltas(); // Update weight deltas
+        }
 
-        } //back propagation function for hidden layers
-        public void updateWeights(float learningRate)
+        /// <summary>
+        ///Uupdate weights for each learning step, occurs after all layers have been updated
+        /// </summary>
+        /// <param name="learningRate"></param>
+        public void UpdateWeights(float learningRate)
         {
-            for (int i = 0; i < numberOfOutputs; i++)
+            for (int i = 0; i < _numberOfOutputs; i++)
             {
-                for (int j = 0; j < numberOfInputs; j++)
+                for (int j = 0; j < _numberOfInputs; j++)
                 {
-                    weights[i, j] -= weightDeltas[i, j] * learningRate;
+                    Weights[i, j] -= weightDeltas[i, j] * learningRate;
                 }
             }
-        } //update weights for each learning step, occurs after all layers have been updated
+        }
 
-        private void initializeWeights()
+        /// <summary>
+        /// Want weightings to start with random values
+        /// </summary>
+        private void InitializeWeights()
         {
-            for (int i = 0; i < numberOfOutputs; i++)
+            for (int i = 0; i < _numberOfOutputs; i++)
             {
-                for (int j = 0; j < numberOfInputs; j++)
+                for (int j = 0; j < _numberOfInputs; j++)
                 {
-                    weights[i, j] = (float)random.NextDouble() - 0.5f;
+                    Weights[i, j] = (float)_random.NextDouble() - 0.5f;
                 }
             }
-        } //want weightings to start with random values
+        }
+
         private void UpdateWeightDeltas()
         {
-            for (int i = 0; i < numberOfOutputs; i++)
+            for (int i = 0; i < _numberOfOutputs; i++)
             {
-                for (int j = 0; j < numberOfInputs; j++)
+                for (int j = 0; j < _numberOfInputs; j++)
                 {
-                    weightDeltas[i, j] = gamma[i] * inputs[j];
+                    weightDeltas[i, j] = Gamma[i] * Inputs[j];
                 }
             }
         }
