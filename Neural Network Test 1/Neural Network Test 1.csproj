@@ -5,5 +5,6 @@
     <RootNamespace>Neural_Network_Test_1</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 </Project>

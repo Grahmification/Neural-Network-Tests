@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Neural_Network_Test_2.Neural
+﻿namespace Neural_Network_Test_2.Neural
 {
     public class Layer
     {

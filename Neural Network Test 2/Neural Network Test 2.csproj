@@ -5,6 +5,7 @@
     <RootNamespace>Neural_Network_Test_2</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="OxyPlot.Core" Version="2.2.0" />

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Neural_Network_Test_1
+﻿namespace Neural_Network_Test_1
 {
     static class Program
     {

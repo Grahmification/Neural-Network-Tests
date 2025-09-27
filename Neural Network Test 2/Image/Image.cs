@@ -1,9 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-
-namespace Neural_Network_Test_2
+﻿namespace Neural_Network_Test_2
 {
     public class Image
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Neural_Network_Test_2.Neural
+﻿namespace Neural_Network_Test_2.Neural
 {
     public class NetworkIOData
     {

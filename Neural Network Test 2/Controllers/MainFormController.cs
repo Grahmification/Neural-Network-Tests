@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using Neural_Network_Test_2.Neural;
+﻿using Neural_Network_Test_2.Neural;
 
 namespace Neural_Network_Test_2
 {

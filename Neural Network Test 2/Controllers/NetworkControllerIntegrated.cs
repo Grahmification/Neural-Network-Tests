@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Neural_Network_Test_2.Neural;
-using System.Threading;
-using System.Collections.Generic;
+﻿using Neural_Network_Test_2.Neural;
 
 namespace Neural_Network_Test_2
 {
